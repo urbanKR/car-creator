@@ -35,63 +35,63 @@ class HomePage extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: FractionalTranslation(
-              translation: Offset(0.0, 0.01),
+              translation: const Offset(0.0, 0.01),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.directions_car,
                     size: 100,
                   ),
-                  SizedBox(height: 1),
-                  Text(
+                  const SizedBox(height: 1),
+                  const Text(
                     'CarCreator',
                     style: TextStyle(
                       fontSize: 60,
                       fontFamily: 'RacingSansOne',
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 100,
                   ),
-                  Container(
+                  SizedBox(
                     width: 0.9 * MediaQuery.of(context).size.width,
                     child: ElevatedButton(
                       onPressed: () {
                         // Handle button press
                       },
-                      child: Text(
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.all(20.0),
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                      ),
+                      child: const Text(
                         'Create a car',
                         style: TextStyle(fontSize: 30, color: Colors.white),
                       ),
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.all(20.0),
-                        backgroundColor: Colors.red,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                      ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Container(
+                  SizedBox(
                     width: 0.9 * MediaQuery.of(context).size.width,
                     child: ElevatedButton(
                       onPressed: () {
                         // Handle button press
                       },
-                      child: Text(
-                        'Collection',
-                        style: TextStyle(fontSize: 30, color: Colors.white),
-                      ),
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.all(20.0),
                         backgroundColor: Colors.red,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ),
+                      ),
+                      child: const Text(
+                        'Collection',
+                        style: TextStyle(fontSize: 30, color: Colors.white),
                       ),
                     ),
                   ),
