@@ -28,7 +28,7 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
       body: Stack(
         children: [
           Positioned(
-            bottom: 160,
+            bottom: 140,
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: 450,
@@ -126,7 +126,7 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
           Align(
             alignment: Alignment.center,
             child: FractionalTranslation(
-              translation: const Offset(0.0, -0.28),
+              translation: const Offset(0.0, -0.32),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
