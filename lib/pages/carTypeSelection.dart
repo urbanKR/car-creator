@@ -1,14 +1,74 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class CarTypeSelection extends StatelessWidget {
+class CarTypeSelection extends StatefulWidget {
   const CarTypeSelection({Key? key}) : super(key: key);
 
   @override
+  _CarTypeSelectionState createState() => _CarTypeSelectionState();
+}
+
+class _CarTypeSelectionState extends State<CarTypeSelection> {
+
+  final List<String> carImages = const [
+    'assets/graphics/Car1.svg',
+    'assets/graphics/Car2.svg',
+    'assets/graphics/Car3.svg',
+    'assets/graphics/Car4.svg',
+  ];
+
+  int selectedButtonIndex = -1;
+
+  @override
   Widget build(BuildContext context) {
+    Color selectedColor = Color(0xFF700B0B);
+    Color unselectedColor = Colors.red;
+
     return Scaffold(
       body: Stack(
         children: [
-          // Chessboard pattern
+          Positioned(
+            bottom: 160,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 450,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 8.0,
+                  mainAxisSpacing: 8.0,
+                ),
+                itemCount: 4,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: () {
+                      setState(() {
+                        selectedButtonIndex =
+                        selectedButtonIndex == index ? -1 : index;
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        color: selectedButtonIndex == index
+                            ? selectedColor
+                            : unselectedColor,
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: SvgPicture.asset(
+                        carImages[index],
+                        width: 30,
+                        height: 30,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
           Positioned(
             bottom: 0,
             child: Container(
@@ -39,7 +99,6 @@ class CarTypeSelection extends StatelessWidget {
               ),
             ),
           ),
-          // Other widgets
           Positioned(
             top: -120,
             left: 20,
@@ -87,39 +146,30 @@ class CarTypeSelection extends StatelessWidget {
               ),
             ),
           ),
-          Positioned.fill(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 10.0,
-                  ),
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 1.0,
-                        ),
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      // You can add your image here
-                      // child: Image.asset('path_to_your_image_placeholder.png'),
-                    );
-                  },
-                ),
-              ),
+        ],
+      ),
+      floatingActionButton: Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          margin: EdgeInsets.only(bottom: 110.0, left: 20),
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: ElevatedButton(
+            onPressed: selectedButtonIndex != -1
+                ? () {
+            }
+                : null,
+            style: ElevatedButton.styleFrom(
+              primary: Colors.red,
+            ),
+            child: Text(
+                'Next',
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.black,
+                )
             ),
           ),
-        ],
+        ),
       ),
     );
   }
