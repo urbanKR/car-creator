@@ -21,22 +21,22 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
 
   @override
   Widget build(BuildContext context) {
-    Color selectedColor = Color(0xFF700B0B);
+    Color selectedColor = const Color(0xFF700B0B);
     Color unselectedColor = Colors.red;
 
     return Scaffold(
       body: Stack(
         children: [
           Positioned(
-            bottom: 170,
+            bottom: 160,
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: 450,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
               ),
               child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 8.0,
                   mainAxisSpacing: 8.0,
@@ -51,7 +51,7 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
                       });
                     },
                     child: Container(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
                         color: selectedButtonIndex == index
                             ? selectedColor
@@ -74,7 +74,7 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: 100,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
               ),
               child: Column(
@@ -123,20 +123,20 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
               ),
             ),
           ),
-          Align(
+          const Align(
             alignment: Alignment.center,
             child: FractionalTranslation(
-              translation: const Offset(0.0, -0.32),
+              translation: Offset(0.0, -0.32),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     'Choose the car',
                     style: TextStyle(
                       fontSize: 45,
                     ),
                   ),
-                  const Text(
+                  Text(
                     'type',
                     style: TextStyle(
                       fontSize: 45,
@@ -151,7 +151,7 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
       floatingActionButton: Align(
         alignment: Alignment.bottomCenter,
         child: Container(
-          margin: EdgeInsets.only(bottom: 110.0, left: 20),
+          margin: const EdgeInsets.only(bottom: 110.0, left: 20),
           width: MediaQuery.of(context).size.width * 0.8,
           child: ElevatedButton(
             onPressed: selectedButtonIndex != -1
@@ -159,9 +159,9 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
             }
                 : null,
             style: ElevatedButton.styleFrom(
-              primary: Colors.red,
+              backgroundColor: Colors.red,
             ),
-            child: Text(
+            child: const Text(
                 'Next',
                 style: TextStyle(
                   fontSize: 30,

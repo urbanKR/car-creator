@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: 100,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
               ),
               child: Column(
@@ -94,7 +94,7 @@ class HomePage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CarTypeSelection(),
+                            builder: (context) => const CarTypeSelection(),
                           ),
                         );
                       },
