@@ -68,7 +68,7 @@ flutter:
     - assets/graphics/Car2.svg
     - assets/graphics/Car3.svg
     - assets/graphics/Car4.svg
-
+    - assets/images/rajder_blyskawica.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
