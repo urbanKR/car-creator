@@ -1,3 +1,4 @@
+import 'package:carcreator/pages/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:carcreator/pages/carTypeSelection.dart';
 
@@ -21,17 +22,21 @@ class HomePage extends StatelessWidget {
               child: Column(
                 children: List.generate(
                   4,
-                      (i) => Row(
+                  (i) => Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: List.generate(
                       15,
-                          (j) => Container(
+                      (j) => Container(
                         width: MediaQuery.of(context).size.width / 15,
                         height: 25,
                         decoration: BoxDecoration(
                           color: (i % 2 == 0)
-                              ? (j % 2 == 0) ? Colors.black : Colors.white
-                              : (j % 2 == 0) ? Colors.white : Colors.black,
+                              ? (j % 2 == 0)
+                                  ? Colors.black
+                                  : Colors.white
+                              : (j % 2 == 0)
+                                  ? Colors.white
+                                  : Colors.black,
                         ),
                       ),
                     ),
@@ -118,7 +123,12 @@ class HomePage extends StatelessWidget {
                     width: 0.9 * MediaQuery.of(context).size.width,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Handle button press
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Collection(),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.all(20.0),

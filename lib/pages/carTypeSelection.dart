@@ -9,7 +9,6 @@ class CarTypeSelection extends StatefulWidget {
 }
 
 class _CarTypeSelectionState extends State<CarTypeSelection> {
-
   final List<String> carImages = const [
     'assets/graphics/Car1.svg',
     'assets/graphics/Car2.svg',
@@ -47,7 +46,7 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
                     onTap: () {
                       setState(() {
                         selectedButtonIndex =
-                        selectedButtonIndex == index ? -1 : index;
+                            selectedButtonIndex == index ? -1 : index;
                       });
                     },
                     child: Container(
@@ -80,17 +79,21 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
               child: Column(
                 children: List.generate(
                   4,
-                      (i) => Row(
+                  (i) => Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: List.generate(
                       15,
-                          (j) => Container(
+                      (j) => Container(
                         width: MediaQuery.of(context).size.width / 15,
                         height: 25,
                         decoration: BoxDecoration(
                           color: (i % 2 == 0)
-                              ? (j % 2 == 0) ? Colors.black : Colors.white
-                              : (j % 2 == 0) ? Colors.white : Colors.black,
+                              ? (j % 2 == 0)
+                                  ? Colors.black
+                                  : Colors.white
+                              : (j % 2 == 0)
+                                  ? Colors.white
+                                  : Colors.black,
                         ),
                       ),
                     ),
@@ -154,20 +157,15 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
           margin: const EdgeInsets.only(bottom: 110.0, left: 20),
           width: MediaQuery.of(context).size.width * 0.8,
           child: ElevatedButton(
-            onPressed: selectedButtonIndex != -1
-                ? () {
-            }
-                : null,
+            onPressed: selectedButtonIndex != -1 ? () {} : null,
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
             ),
-            child: const Text(
-                'Next',
+            child: const Text('Next',
                 style: TextStyle(
                   fontSize: 30,
                   color: Colors.black,
-                )
-            ),
+                )),
           ),
         ),
       ),
