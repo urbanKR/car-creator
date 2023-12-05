@@ -1,15 +1,16 @@
-import 'package:carcreator/pages/collectionCarPreview.dart';
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Collection extends StatefulWidget {
-  const Collection({Key? key}) : super(key: key);
+class CollectionCarPreview extends StatefulWidget {
+  const CollectionCarPreview({Key? key}) : super(key: key);
 
   @override
-  _CollectionState createState() => _CollectionState();
+  _CollectionCarPreviewState createState() => _CollectionCarPreviewState();
 }
 
-class _CollectionState extends State<Collection> {
+class _CollectionCarPreviewState extends State<CollectionCarPreview> {
   final List<String> carArray = const [
     //wrong size first??
     // 'assets/graphics/Car1.svg',
@@ -20,6 +21,7 @@ class _CollectionState extends State<Collection> {
     'assets/graphics/Car3.svg',
     'assets/graphics/Car4.svg',
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,84 +100,64 @@ class _CollectionState extends State<Collection> {
                       translation: const Offset(0.0, 0.01),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        //Collection
+                        //Car Preview Items
                         children: [
                           const SizedBox(
                             height: 10,
                           ),
                           const Text(
-                            'Collection',
+                            'Car1',
                             style: TextStyle(
                               fontSize: 50,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           const SizedBox(
-                            height: 30,
+                            height: 50,
                           ),
-                          //Collection items
+                          //Car svg
                           SizedBox(
-                            height: 440,
-                            child: ListView.builder(
-                              itemCount: carArray.length,
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const CollectionCarPreview(),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.asset(
-                                          carArray[index],
-                                          width: 130,
-                                          height: 120,
-                                        ),
-                                        const SizedBox(width: 40),
-                                        Column(
-                                          children: [
-                                            Text(
-                                              'Car ${index + 1}',
-                                              style: const TextStyle(
-                                                fontSize: 25,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            const Text(
-                                              'Creation Date',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            const Text(
-                                              '01.01.2024',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
+                            width: 260,
+                            height: 260,
+                            child: Container(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SvgPicture.asset(carArray[0]),
                             ),
                           ),
                           const SizedBox(
-                            height: 30,
+                            height: 20,
+                          ),
+                          SizedBox(
+                            width: 0.9 * MediaQuery.of(context).size.width,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                //handle navigation
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => const CarTypeSelection(),
+                                //   ),
+                                // );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.all(20.0),
+                                backgroundColor: Colors.red,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                ),
+                              ),
+                              child: const Text(
+                                'Show concept',
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
                           ),
                         ],
                       ),
