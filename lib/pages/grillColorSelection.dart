@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:carcreator/pages/finalCarPreview.dart';
 
 class GrillColorSelection extends StatefulWidget {
   const GrillColorSelection({Key? key}) : super(key: key);
@@ -108,7 +109,7 @@ class _GrillColorSelection extends State<GrillColorSelection> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const GrillColorSelection(),
+                  builder: (context) => const FinalCarPreview(),
                 ),
               );
             },
