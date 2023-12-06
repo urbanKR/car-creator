@@ -51,7 +51,7 @@ class _SoundSelectionState extends State<SoundSelection> {
                       decoration: BoxDecoration(
                         color: selectedButtonIndex == index
                             ? selectedColor
-                            : index % 2 == 0
+                            : index % 4 == 0 || index % 4 == 3
                                 ? unselectedColorEven
                                 : unselectedColorOdd,
                         borderRadius: BorderRadius.circular(20.0),
