@@ -58,10 +58,10 @@ class _SoundSelectionState extends State<SoundSelection> {
                       ),
                       child: Icon(
                         Icons.volume_up,
-                        size: 30,
+                        size: 60,
                         color: selectedButtonIndex == index
                             ? selectedSpeakerColor
-                            : index % 2 == 0
+                            : index % 4 == 0 || index % 4 == 3
                                 ? unselectedSpeakerColorEven
                                 : unselectedSpeakerColorOdd,
                       ),
