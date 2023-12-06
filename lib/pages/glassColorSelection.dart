@@ -1,74 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:carcreator/pages/soundSelection.dart';
+import 'package:carcreator/pages/grillColorSelection.dart';
 
-class CarTypeSelection extends StatefulWidget {
-  const CarTypeSelection({Key? key}) : super(key: key);
+class GlassColorSelection extends StatefulWidget {
+  const GlassColorSelection({Key? key}) : super(key: key);
 
   @override
-  _CarTypeSelectionState createState() => _CarTypeSelectionState();
+  _GlassColorSelection createState() => _GlassColorSelection();
 }
 
-class _CarTypeSelectionState extends State<CarTypeSelection> {
-  final List<String> carImages = const [
-    'assets/graphics/Car1.svg',
-    'assets/graphics/Car2.svg',
-    'assets/graphics/Car3.svg',
-    'assets/graphics/Car4.svg',
-  ];
-
+class _GlassColorSelection extends State<GlassColorSelection> {
   int selectedButtonIndex = -1;
 
   @override
   Widget build(BuildContext context) {
-    Color selectedColor = const Color(0xFF700B0B);
-    Color unselectedColor = Colors.red;
-
     return Scaffold(
       body: Stack(
         children: [
-          Positioned(
-            bottom: 160,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 450,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 8.0,
-                  mainAxisSpacing: 8.0,
-                ),
-                itemCount: 4,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onTap: () {
-                      setState(() {
-                        selectedButtonIndex =
-                            selectedButtonIndex == index ? -1 : index;
-                      });
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        color: selectedButtonIndex == index
-                            ? selectedColor
-                            : unselectedColor,
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: SvgPicture.asset(
-                        carImages[index],
-                        width: 30,
-                        height: 30,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
           Positioned(
             bottom: 0,
             child: Container(
@@ -135,13 +83,13 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Choose the car',
+                    'Choose the',
                     style: TextStyle(
                       fontSize: 45,
                     ),
                   ),
                   Text(
-                    'type',
+                    'glass color',
                     style: TextStyle(
                       fontSize: 45,
                     ),
@@ -158,17 +106,14 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
           margin: const EdgeInsets.only(bottom: 110.0, left: 20),
           width: MediaQuery.of(context).size.width * 0.8,
           child: ElevatedButton(
-            onPressed: selectedButtonIndex != -1
-                ? () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const SoundSelection(), // Replace SoundSelection with your actual page name
-                      ),
-                    );
-                  }
-                : null,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const GrillColorSelection(),
+                ),
+              );
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
             ),

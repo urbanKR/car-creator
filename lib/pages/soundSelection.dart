@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:carcreator/pages/soundSelection.dart';
 
-class CarTypeSelection extends StatefulWidget {
-  const CarTypeSelection({Key? key}) : super(key: key);
+class SoundSelection extends StatefulWidget {
+  const SoundSelection({Key? key}) : super(key: key);
 
   @override
-  _CarTypeSelectionState createState() => _CarTypeSelectionState();
+  _SoundSelectionState createState() => _SoundSelectionState();
 }
 
-class _CarTypeSelectionState extends State<CarTypeSelection> {
-  final List<String> carImages = const [
-    'assets/graphics/Car1.svg',
-    'assets/graphics/Car2.svg',
-    'assets/graphics/Car3.svg',
-    'assets/graphics/Car4.svg',
-  ];
-
+class _SoundSelectionState extends State<SoundSelection> {
   int selectedButtonIndex = -1;
 
   @override
   Widget build(BuildContext context) {
     Color selectedColor = const Color(0xFF700B0B);
-    Color unselectedColor = Colors.red;
+    Color unselectedColorEven = Colors.red;
+    Color unselectedColorOdd = Colors.black;
+    Color selectedSpeakerColor = Colors.yellow;
+    Color unselectedSpeakerColorEven = Colors.black;
+    Color unselectedSpeakerColorOdd = Colors.white;
 
     return Scaffold(
       body: Stack(
@@ -55,13 +51,19 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
                       decoration: BoxDecoration(
                         color: selectedButtonIndex == index
                             ? selectedColor
-                            : unselectedColor,
+                            : index % 2 == 0
+                                ? unselectedColorEven
+                                : unselectedColorOdd,
                         borderRadius: BorderRadius.circular(20.0),
                       ),
-                      child: SvgPicture.asset(
-                        carImages[index],
-                        width: 30,
-                        height: 30,
+                      child: Icon(
+                        Icons.volume_up,
+                        size: 30,
+                        color: selectedButtonIndex == index
+                            ? selectedSpeakerColor
+                            : index % 2 == 0
+                                ? unselectedSpeakerColorEven
+                                : unselectedSpeakerColorOdd,
                       ),
                     ),
                   );
@@ -135,13 +137,13 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Choose the car',
+                    'Choose the',
                     style: TextStyle(
                       fontSize: 45,
                     ),
                   ),
                   Text(
-                    'type',
+                    'sound',
                     style: TextStyle(
                       fontSize: 45,
                     ),
@@ -164,7 +166,7 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            const SoundSelection(), // Replace SoundSelection with your actual page name
+                            const CarColorSelection(), // Replace SoundSelection with your actual page name
                       ),
                     );
                   }
