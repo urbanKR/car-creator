@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:carcreator/pages/glassColorSelection.dart';
 
 class CarColorSelection extends StatefulWidget {
   const CarColorSelection({Key? key}) : super(key: key);
@@ -109,7 +109,7 @@ class _CarColorSelection extends State<CarColorSelection> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const CarColorSelection(),
+                  builder: (context) => const GlassColorSelection(),
                 ),
               );
             },
