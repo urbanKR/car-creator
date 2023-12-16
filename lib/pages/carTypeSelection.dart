@@ -163,8 +163,7 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            const SoundSelection(), // Replace SoundSelection with your actual page name
+                        builder: (context) => const SoundSelection(),
                       ),
                     );
                   }

@@ -2,7 +2,7 @@ import "dart:ui";
 import "dart:io";
 
 class Car {
-  int? bodyTypeId;
+  String? type;
   String? soundId;
   Color? bodyColor;
   Color? glassColor;
@@ -11,7 +11,7 @@ class Car {
   File? realisticCar;
 
   Car(
-      {this.bodyTypeId,
+      {this.type,
       this.soundId,
       this.bodyColor,
       this.glassColor,
