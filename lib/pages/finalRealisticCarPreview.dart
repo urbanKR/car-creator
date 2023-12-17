@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:carcreator/models/Car.dart';
+import 'dart:io';
 
 class FinalRealisticCarPreview extends StatefulWidget {
-  const FinalRealisticCarPreview({Key? key}) : super(key: key);
+  final Car ourCar;
+  const FinalRealisticCarPreview({Key? key, required this.ourCar})
+      : super(key: key);
 
   @override
-  _FinalRealisticCarPreviewState createState() =>
-      _FinalRealisticCarPreviewState();
+  FinalRealisticCarPreviewState createState() =>
+      FinalRealisticCarPreviewState();
 }
 
-class _FinalRealisticCarPreviewState extends State<FinalRealisticCarPreview> {
-  final List<String> carArray = const [
-    //wrong size first??
-    // 'assets/graphics/Car1.svg',
-    'assets/graphics/Car2.svg',
-    'assets/graphics/Car3.svg',
-    'assets/graphics/Car4.svg',
-    'assets/graphics/Car2.svg',
-    'assets/graphics/Car3.svg',
-    'assets/graphics/Car4.svg',
-  ];
+class FinalRealisticCarPreviewState extends State<FinalRealisticCarPreview> {
+  File? realisticImage;
+  late Car ourCar;
+
+  @override
+  void initState() {
+    super.initState();
+    ourCar = widget.ourCar; // Initialize ourCar with the passed Car object
+  }
 
   @override
   Widget build(BuildContext context) {

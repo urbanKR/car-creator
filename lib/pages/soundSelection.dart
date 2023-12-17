@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:carcreator/pages/carColorSelection.dart';
+import 'package:carcreator/models/Car.dart';
 
 class SoundSelection extends StatefulWidget {
-  const SoundSelection({Key? key}) : super(key: key);
+  final Car ourCar;
+  const SoundSelection({Key? key, required this.ourCar}) : super(key: key);
 
   @override
-  _SoundSelectionState createState() => _SoundSelectionState();
+  SoundSelectionState createState() => SoundSelectionState();
 }
 
-class _SoundSelectionState extends State<SoundSelection> {
+class SoundSelectionState extends State<SoundSelection> {
   int selectedButtonIndex = -1;
+  late Car ourCar;
+
+  @override
+  void initState() {
+    super.initState();
+    ourCar = widget.ourCar; // Initialize ourCar with the passed Car object
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -162,6 +171,7 @@ class _SoundSelectionState extends State<SoundSelection> {
           child: ElevatedButton(
             onPressed: selectedButtonIndex != -1
                 ? () {
+                    ourCar.soundId = selectedButtonIndex;
                     Navigator.push(
                       context,
                       MaterialPageRoute(

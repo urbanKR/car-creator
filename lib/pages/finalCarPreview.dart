@@ -1,15 +1,26 @@
 import 'package:carcreator/pages/finalRealisticCarPreview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:carcreator/models/Car.dart';
 
 class FinalCarPreview extends StatefulWidget {
-  const FinalCarPreview({Key? key}) : super(key: key);
+  final Car ourCar;
+  const FinalCarPreview({Key? key, required this.ourCar}) : super(key: key);
 
   @override
-  _FinalCarPreviewState createState() => _FinalCarPreviewState();
+  FinalCarPreviewState createState() => FinalCarPreviewState();
 }
 
-class _FinalCarPreviewState extends State<FinalCarPreview> {
+class FinalCarPreviewState extends State<FinalCarPreview> {
+  String carName = "";
+  late Car ourCar;
+
+  @override
+  void initState() {
+    super.initState();
+    ourCar = widget.ourCar; // Initialize ourCar with the passed Car object
+  }
+
   final List<String> carArray = const [
     //wrong size first??
     // 'assets/graphics/Car1.svg',
@@ -131,11 +142,13 @@ class _FinalCarPreviewState extends State<FinalCarPreview> {
                             width: 0.9 * MediaQuery.of(context).size.width,
                             child: ElevatedButton(
                               onPressed: () {
+                                ourCar.name = carName;
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        const FinalRealisticCarPreview(),
+                                        FinalRealisticCarPreview(
+                                            ourCar: ourCar),
                                   ),
                                 );
                               },

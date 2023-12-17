@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:carcreator/pages/glassColorSelection.dart';
+import 'package:carcreator/models/Car.dart';
 
 class CarColorSelection extends StatefulWidget {
-  const CarColorSelection({Key? key}) : super(key: key);
+  final Car ourCar;
+  const CarColorSelection({Key? key, required this.ourCar}) : super(key: key);
 
   @override
-  _CarColorSelection createState() => _CarColorSelection();
+  CarColorSelectionState createState() => CarColorSelectionState();
 }
 
-class _CarColorSelection extends State<CarColorSelection> {
-  int selectedButtonIndex = -1;
+class CarColorSelectionState extends State<CarColorSelection> {
+  Color selectedColor = Colors.black;
+  late Car ourCar;
+
+  @override
+  void initState() {
+    super.initState();
+    ourCar = widget.ourCar; // Initialize ourCar with the passed Car object
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,10 +115,11 @@ class _CarColorSelection extends State<CarColorSelection> {
           width: MediaQuery.of(context).size.width * 0.8,
           child: ElevatedButton(
             onPressed: () {
+              ourCar.bodyColor = selectedColor;
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const GlassColorSelection(),
+                  builder: (context) => GlassColorSelection(ourCar: ourCar),
                 ),
               );
             },

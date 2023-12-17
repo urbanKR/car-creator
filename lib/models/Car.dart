@@ -3,7 +3,7 @@ import "dart:io";
 
 class Car {
   String? type;
-  String? soundId;
+  int? soundId;
   Color? bodyColor;
   Color? glassColor;
   Color? grillColor;

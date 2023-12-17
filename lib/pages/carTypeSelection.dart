@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carcreator/pages/soundSelection.dart';
+import 'package:carcreator/models/Car.dart';
 
 class CarTypeSelection extends StatefulWidget {
   const CarTypeSelection({Key? key}) : super(key: key);
 
   @override
-  _CarTypeSelectionState createState() => _CarTypeSelectionState();
+  CarTypeSelectionState createState() => CarTypeSelectionState();
 }
 
-class _CarTypeSelectionState extends State<CarTypeSelection> {
+class CarTypeSelectionState extends State<CarTypeSelection> {
   final List<String> carImages = const [
     'assets/graphics/Car1.svg',
     'assets/graphics/Car2.svg',
@@ -160,10 +161,11 @@ class _CarTypeSelectionState extends State<CarTypeSelection> {
           child: ElevatedButton(
             onPressed: selectedButtonIndex != -1
                 ? () {
+                    Car ourCar = Car(type: carImages[selectedButtonIndex]);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SoundSelection(),
+                        builder: (context) => SoundSelection(ourCar: ourCar),
                       ),
                     );
                   }
