@@ -175,8 +175,7 @@ class SoundSelectionState extends State<SoundSelection> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            const CarColorSelection(), // Replace SoundSelection with your actual page name
+                        builder: (context) => CarColorSelection(ourCar: ourCar),
                       ),
                     );
                   }

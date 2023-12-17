@@ -115,10 +115,11 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
           width: MediaQuery.of(context).size.width * 0.8,
           child: ElevatedButton(
             onPressed: () {
+              ourCar.grillColor = selectedColor;
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const FinalCarPreview(),
+                  builder: (context) => FinalCarPreview(ourCar: ourCar),
                 ),
               );
             },
