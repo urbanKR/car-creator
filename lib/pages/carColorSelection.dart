@@ -106,6 +106,27 @@ class CarColorSelectionState extends State<CarColorSelection> {
               ),
             ),
           ),
+          Positioned(
+            top: 40,
+            left: 20,
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ),
         ],
       ),
       floatingActionButton: Align(
