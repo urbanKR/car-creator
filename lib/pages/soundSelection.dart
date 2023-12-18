@@ -33,10 +33,10 @@ class SoundSelectionState extends State<SoundSelection> {
       body: Stack(
         children: [
           Positioned(
-            bottom: 160,
+            bottom: 200,
             child: Container(
               width: MediaQuery.of(context).size.width,
-              height: 450,
+              height: 500,
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),
@@ -158,6 +158,27 @@ class SoundSelectionState extends State<SoundSelection> {
                     ),
                   ),
                 ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 40,
+            left: 20,
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
             ),
           ),
