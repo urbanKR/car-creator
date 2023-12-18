@@ -21,8 +21,8 @@
    inkscape:pagecheckerboard="0"
    inkscape:deskcolor="#d1d1d1"
    inkscape:zoom="4.3210526"
-   inkscape:cx="94.884287"
-   inkscape:cy="95"
+   inkscape:cx="94.884288"
+   inkscape:cy="95.000001"
    inkscape:window-width="1920"
    inkscape:window-height="1017"
    inkscape:window-x="-8"
@@ -57,7 +57,7 @@
 </g>
 
 <g
-   id="g16"
+   id="groupGlass"
    inkscape:label="groupGlass"><g
      transform="matrix(5.5311565623 0 0 2.096252243 94.978296762 65.4103029393)"
      id="ifRaHiraSZ3p7lRpiBW-e">
@@ -84,7 +84,7 @@
 
 
 <g
-   id="g17"
+   id="groupBodyMain"
    inkscape:label="groupBodyMain"><g
      transform="matrix(-0.2790163982 0 0 0.5373917914 27.3476662311 65.4103029393)"
      id="kANKEHMs0ZbkZQFencW1s">
@@ -159,7 +159,7 @@
    id="path9" />
 </g>
 <g
-   id="g19"
+   id="groupGrill"
    inkscape:label="groupGrill"><g
      transform="matrix(3.5659620033 0 0 0.6598088427 94.978296762 116.3620290897)"
      id="4_o50qanEvryWGL-2a-PG">
@@ -173,7 +173,7 @@
 
 
 <g
-   id="g18"
+   id="groupBodyGrill"
    inkscape:label="groupBodyGrill"><g
      transform="matrix(1.0021933002 0 0 1.0938534966 94.978296762 112.4648024242)"
      id="w_661sSqfbLXmuRwYEzSD">

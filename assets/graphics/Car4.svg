@@ -56,7 +56,7 @@
 </g>
 
 <g
-   id="g22"
+   id="groupGlass"
    inkscape:label="groupGlass"><g
      transform="matrix(5.69 0 0 2.2849458928 101.3425609003 60.0582231873)"
      id="l37UkZMIfL_CseoANQhtM">
@@ -87,7 +87,7 @@
 
 
 <g
-   id="g23"
+   id="groupBodyMain"
    inkscape:label="groupBodyMain"><g
      transform="matrix(-0.14273855,0,0,0.3532839,16.011177,99.428858)"
      id="X3BBm7H2CiSiqArb-XhNy">
@@ -209,7 +209,7 @@
    id="path17" />
 </g>
 <g
-   id="g25"
+   id="groupGrill"
    inkscape:label="groupGrill"><g
      transform="matrix(5.5 0 0 1 100 141.5124867468)"
      id="9Dkdw_50W9VmF3k9Apqr8">
@@ -224,7 +224,7 @@
 
 
 <g
-   id="g24"
+   id="groupBodyGrill"
    inkscape:label="groupBodyGrill"><g
      transform="matrix(1.0121581,0,0,1.9672131,100.49687,148.52459)"
      id="PTueyKXtX0DQ5Xpnl9qvO">
