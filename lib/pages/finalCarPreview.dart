@@ -152,7 +152,7 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
                             height: 260,
                             child: Container(
                               padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(carArray[0]),
+                              child: SvgPicture.asset(ourCar.type),
                             ),
                           ),
                           const SizedBox(
