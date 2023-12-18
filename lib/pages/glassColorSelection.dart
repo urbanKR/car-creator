@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carcreator/pages/grillColorSelection.dart';
 import 'package:carcreator/models/Car.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class GlassColorSelection extends StatefulWidget {
   final Car ourCar;
@@ -101,6 +102,37 @@ class GlassColorSelectionState extends State<GlassColorSelection> {
                     style: TextStyle(
                       fontSize: 45,
                     ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: FractionalTranslation(
+              translation: const Offset(0.0, 0.01),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                //Car Preview Items
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: 260,
+                    height: 260,
+                    child: Container(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SvgPicture.asset(
+                        ourCar.type,
+                        colorFilter:
+                            ColorFilter.mode(selectedColor, BlendMode.srcIn),
+                        key: const ValueKey('groupGlass'),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                 ],
               ),
