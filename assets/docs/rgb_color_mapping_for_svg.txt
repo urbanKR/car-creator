@@ -1,0 +1,16 @@
+99f8ff - default glass color
+020202 - default body color
+000000 - default tires and wheel color
+fcfcfc - default grill color
+
+
+
+
+
+
+
+
+
+
+
+
