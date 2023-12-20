@@ -1,3 +1,4 @@
+import 'package:carcreator/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:carcreator/pages/glassColorSelection.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -132,8 +133,9 @@ class CarColorSelectionState extends State<CarColorSelection> {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 30,
                   ),
+                  const ColorPicker(),
                 ],
               ),
             ),
@@ -167,6 +169,63 @@ class CarColorSelectionState extends State<CarColorSelection> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ColorPicker extends StatefulWidget {
+  const ColorPicker({super.key});
+
+  @override
+  State<ColorPicker> createState() => _ColorPickerState();
+}
+
+class _ColorPickerState extends State<ColorPicker> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        for (var i in carColors.entries)
+          GestureDetector(
+              onTap: () {
+                setState(() {
+                  carColors.updateAll((key, value) {
+                    if (key != i.key) {
+                      return value = false;
+                    }
+                    return value = true;
+                  });
+                });
+              },
+              child: ColorPickerItem(color: i.key, isChecked: i.value)),
+      ],
+    );
+  }
+}
+
+class ColorPickerItem extends StatelessWidget {
+  const ColorPickerItem(
+      {super.key, required this.color, required this.isChecked});
+
+  final Color color;
+  final bool isChecked;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      backgroundColor: Colors.black,
+      radius: 29,
+      child: CircleAvatar(
+        backgroundColor: color,
+        radius: 26,
+        child: isChecked
+            ? const Icon(
+                Icons.check,
+                size: 35,
+              )
+            : null,
       ),
     );
   }

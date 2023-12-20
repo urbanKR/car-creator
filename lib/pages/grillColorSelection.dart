@@ -1,3 +1,4 @@
+import 'package:carcreator/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:carcreator/pages/finalCarPreview.dart';
 import 'package:carcreator/models/Car.dart';
@@ -134,6 +135,7 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
                   const SizedBox(
                     height: 20,
                   ),
+                  const ColorPicker(),
                 ],
               ),
             ),
@@ -167,6 +169,63 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ColorPicker extends StatefulWidget {
+  const ColorPicker({super.key});
+
+  @override
+  State<ColorPicker> createState() => _ColorPickerState();
+}
+
+class _ColorPickerState extends State<ColorPicker> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        for (var i in grillColors.entries)
+          GestureDetector(
+              onTap: () {
+                setState(() {
+                  grillColors.updateAll((key, value) {
+                    if (key != i.key) {
+                      return value = false;
+                    }
+                    return value = true;
+                  });
+                });
+              },
+              child: ColorPickerItem(color: i.key, isChecked: i.value)),
+      ],
+    );
+  }
+}
+
+class ColorPickerItem extends StatelessWidget {
+  const ColorPickerItem(
+      {super.key, required this.color, required this.isChecked});
+
+  final Color color;
+  final bool isChecked;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      backgroundColor: Colors.black,
+      radius: 29,
+      child: CircleAvatar(
+        backgroundColor: color,
+        radius: 26,
+        child: isChecked
+            ? const Icon(
+                Icons.check,
+                size: 35,
+              )
+            : null,
       ),
     );
   }
