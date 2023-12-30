@@ -1,4 +1,4 @@
-import 'package:carcreator/pages/finalRealisticCarPreview.dart';
+import 'package:carcreator/api/aiImageApi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carcreator/models/Car.dart';
@@ -12,6 +12,9 @@ class FinalCarPreview extends StatefulWidget {
 }
 
 class FinalCarPreviewState extends State<FinalCarPreview> {
+  //test prompt
+  String textPrompt = "red car on the highway";
+  bool isLoading = false;
   String carName = "";
   late Car ourCar;
 
@@ -164,14 +167,9 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
                             child: ElevatedButton(
                               onPressed: () {
                                 ourCar.name = carName;
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        FinalRealisticCarPreview(
-                                            ourCar: ourCar),
-                                  ),
-                                );
+                                convertTextToImage(textPrompt, ourCar, context);
+                                isLoading = true;
+                                setState(() {});
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.all(20.0),
@@ -180,14 +178,20 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
                                   borderRadius: BorderRadius.circular(40.0),
                                 ),
                               ),
-                              child: const Text(
-                                'Show concept',
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                              child: isLoading
+                                  ? const SizedBox(
+                                      height: 15,
+                                      width: 15,
+                                      child: CircularProgressIndicator(
+                                          color: Colors.black))
+                                  : const Text(
+                                      'Show concept',
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                             ),
                           ),
                           const SizedBox(

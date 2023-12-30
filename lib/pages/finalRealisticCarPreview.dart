@@ -1,10 +1,14 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:carcreator/models/Car.dart';
 import 'dart:io';
 
 class FinalRealisticCarPreview extends StatefulWidget {
+  final Uint8List image;
   final Car ourCar;
-  const FinalRealisticCarPreview({Key? key, required this.ourCar})
+  const FinalRealisticCarPreview(
+      {Key? key, required this.ourCar, required this.image})
       : super(key: key);
 
   @override
@@ -127,7 +131,7 @@ class FinalRealisticCarPreviewState extends State<FinalRealisticCarPreview> {
                             height: 10,
                           ),
                           const Text(
-                            'Realistic concept',
+                            'Real Concept',
                             style: TextStyle(
                               fontSize: 50,
                               fontWeight: FontWeight.bold,
@@ -148,17 +152,17 @@ class FinalRealisticCarPreviewState extends State<FinalRealisticCarPreview> {
                             width: 330,
                             height: 330,
                             child: Container(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                padding: const EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/rajder_blyskawica.jpg'),
-                                    fit: BoxFit.cover,
-                                  ),
+                              width: 340,
+                              height: 500,
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(25),
+                                child: Image.memory(
+                                  widget.image,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
