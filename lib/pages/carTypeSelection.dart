@@ -29,7 +29,7 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
       body: Stack(
         children: [
           Positioned(
-            bottom: 200,
+            bottom: 160,
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: 450,

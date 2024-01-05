@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:carcreator/api/aiImageApi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,6 +23,19 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
   void initState() {
     super.initState();
     ourCar = widget.ourCar; // Initialize ourCar with the passed Car object
+    final player = AudioPlayer();
+    if (ourCar.soundId == 0) {
+      player.play(AssetSource('sounds/carSound1.mp3'));
+    }
+    if (ourCar.soundId == 1) {
+      player.play(AssetSource('sounds/carSound2.wav'));
+    }
+    if (ourCar.soundId == 2) {
+      player.play(AssetSource('sounds/carSound3.wav'));
+    }
+    if (ourCar.soundId == 3) {
+      player.play(AssetSource('sounds/carSound4.mp3'));
+    }
   }
 
   final List<String> carArray = const [
@@ -100,27 +114,6 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
               ),
             ),
           ),
-          Positioned(
-            top: 40,
-            left: 20,
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ),
           Align(
             alignment: Alignment.center,
             child: FractionalTranslation(
@@ -142,7 +135,7 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
                           const Text(
                             'Here is your car!',
                             style: TextStyle(
-                              fontSize: 50,
+                              fontSize: 40,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -202,6 +195,27 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
                     ),
                   ),
                 ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 40,
+            left: 20,
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
             ),
           ),
