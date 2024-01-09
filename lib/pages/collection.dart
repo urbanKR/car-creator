@@ -1,6 +1,9 @@
+import 'package:carcreator/database_helper.dart';
 import 'package:carcreator/pages/collectionCarPreview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../models/Car.dart';
 
 class Collection extends StatefulWidget {
   const Collection({Key? key}) : super(key: key);
@@ -10,16 +13,30 @@ class Collection extends StatefulWidget {
 }
 
 class _CollectionState extends State<Collection> {
-  final List<String> carArray = const [
-    //wrong size first??
-    // 'assets/graphics/Car1.svg',
-    'assets/graphics/Car2.svg',
-    'assets/graphics/Car3.svg',
-    'assets/graphics/Car4.svg',
-    'assets/graphics/Car2.svg',
-    'assets/graphics/Car3.svg',
-    'assets/graphics/Car4.svg',
-  ];
+  late List<Car> carArray;
+
+  // final List<String> carArray = const
+  //   [
+  //   //wrong size first??
+  //   // 'assets/graphics/Car1.svg',
+  //   'assets/graphics/Car2.svg',
+  //   'assets/graphics/Car3.svg',
+  //   'assets/graphics/Car4.svg',
+  //   'assets/graphics/Car2.svg',
+  //   'assets/graphics/Car3.svg',
+  //   'assets/graphics/Car4.svg',
+  // ];
+
+  Future refreshCars() async {
+    carArray = await CarsDatabase.instance.readAllCars();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    refreshCars();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
