@@ -25,87 +25,10 @@ class _CollectionState extends State<Collection> {
     return Scaffold(
       body: Stack(
         children: [
-          // Chessboard pattern
-          Positioned(
-            bottom: 0,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 100,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Column(
-                children: List.generate(
-                  4,
-                  (i) => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: List.generate(
-                      15,
-                      (j) => Container(
-                        width: MediaQuery.of(context).size.width / 15,
-                        height: 25,
-                        decoration: BoxDecoration(
-                          color: (i % 2 == 0)
-                              ? (j % 2 == 0)
-                                  ? Colors.black
-                                  : Colors.white
-                              : (j % 2 == 0)
-                                  ? Colors.white
-                                  : Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          // Other widgets
-          Positioned(
-            top: -120,
-            left: 20,
-            child: Container(
-              width: 260,
-              height: 260,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.red.withOpacity(0.4),
-              ),
-            ),
-          ),
-          Positioned(
-            top: -10,
-            left: -140,
-            child: Container(
-              width: 260,
-              height: 260,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.red.withOpacity(0.4),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 40,
-            left: 20,
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ),
+          _buildChessboard(context),
+          _buildLeftCircleWidget(context),
+          _buildRightCircleWidget(context),
+          _buildArrowBackButton(context),
           Align(
             alignment: Alignment.center,
             child: FractionalTranslation(
@@ -207,6 +130,97 @@ class _CollectionState extends State<Collection> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildChessboard(BuildContext context) {
+    return Positioned(
+      bottom: 0,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 100,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Column(
+          children: List.generate(
+            4,
+            (i) => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(
+                15,
+                (j) => Container(
+                  width: MediaQuery.of(context).size.width / 15,
+                  height: 25,
+                  decoration: BoxDecoration(
+                    color: (i % 2 == 0)
+                        ? (j % 2 == 0)
+                            ? Colors.black
+                            : Colors.white
+                        : (j % 2 == 0)
+                            ? Colors.white
+                            : Colors.black,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLeftCircleWidget(BuildContext context) {
+    return Positioned(
+      top: -120,
+      left: 20,
+      child: Container(
+        width: 260,
+        height: 260,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.red.withOpacity(0.4),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRightCircleWidget(BuildContext context) {
+    return Positioned(
+      top: -10,
+      left: -140,
+      child: Container(
+        width: 260,
+        height: 260,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.red.withOpacity(0.4),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildArrowBackButton(BuildContext context) {
+    return Positioned(
+      top: 40,
+      left: 20,
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
     );
   }
