@@ -28,9 +28,9 @@ class _CollectionState extends State<Collection> {
   //'assets/graphics/Car4.svg',
   //];
 
-  // Future refreshCars() async {
-  //   carArray = await CarsDatabase.instance.readAllCars();
-  // }
+  Future refreshCars() async {
+    carArray = await CarsDatabase.instance.readAllCars();
+  }
 
   Future fillSvgCodeArray() async {
     for (Car car in carArray) {
