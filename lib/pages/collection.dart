@@ -16,21 +16,21 @@ class _CollectionState extends State<Collection> {
   late List<Car> carArray;
   late List<String> svgCodeArray;
 
-  // final List<String> carArray = const
-  //   [
-  //   //wrong size first??
-  //   // 'assets/graphics/Car1.svg',
-  //   'assets/graphics/Car2.svg',
-  //   'assets/graphics/Car3.svg',
-  //   'assets/graphics/Car4.svg',
-  //   'assets/graphics/Car2.svg',
-  //   'assets/graphics/Car3.svg',
-  //   'assets/graphics/Car4.svg',
-  // ];
+  //final List<String> carArray = const
+  //  [
+  //wrong size first??
+  // 'assets/graphics/Car1.svg',
+  //'assets/graphics/Car2.svg',
+  //'assets/graphics/Car3.svg',
+  //'assets/graphics/Car4.svg',
+  //'assets/graphics/Car2.svg',
+  //'assets/graphics/Car3.svg',
+  //'assets/graphics/Car4.svg',
+  //];
 
-  Future refreshCars() async {
-    carArray = await CarsDatabase.instance.readAllCars();
-  }
+  // Future refreshCars() async {
+  //   carArray = await CarsDatabase.instance.readAllCars();
+  // }
 
   Future fillSvgCodeArray() async {
     for (Car car in carArray) {
