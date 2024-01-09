@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carcreator/pages/carColorSelection.dart';
 import 'package:carcreator/models/Car.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class SoundSelection extends StatefulWidget {
   final Car ourCar;
@@ -13,6 +14,14 @@ class SoundSelection extends StatefulWidget {
 class SoundSelectionState extends State<SoundSelection> {
   int selectedButtonIndex = -1;
   late Car ourCar;
+
+  final audioPlayer = AudioPlayer();
+
+  @override
+  void dispose() {
+    super.dispose();
+    audioPlayer.dispose();
+  }
 
   @override
   void initState() {
@@ -33,10 +42,10 @@ class SoundSelectionState extends State<SoundSelection> {
       body: Stack(
         children: [
           Positioned(
-            bottom: 200,
+            bottom: 160,
             child: Container(
               width: MediaQuery.of(context).size.width,
-              height: 500,
+              height: 450,
               decoration: const BoxDecoration(
                 color: Colors.white,
               ),
@@ -50,6 +59,19 @@ class SoundSelectionState extends State<SoundSelection> {
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
                     onTap: () {
+                      final player = AudioPlayer();
+                      if (index == 0) {
+                        player.play(AssetSource('sounds/carSound1.mp3'));
+                      }
+                      if (index == 1) {
+                        player.play(AssetSource('sounds/carSound2.wav'));
+                      }
+                      if (index == 2) {
+                        player.play(AssetSource('sounds/carSound3.wav'));
+                      }
+                      if (index == 3) {
+                        player.play(AssetSource('sounds/carSound4.mp3'));
+                      }
                       setState(() {
                         selectedButtonIndex =
                             selectedButtonIndex == index ? -1 : index;
