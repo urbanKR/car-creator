@@ -14,6 +14,7 @@ class Collection extends StatefulWidget {
 
 class _CollectionState extends State<Collection> {
   late List<Car> carArray;
+  late List<String> svgCodeArray;
 
   // final List<String> carArray = const
   //   [
@@ -31,10 +32,17 @@ class _CollectionState extends State<Collection> {
     carArray = await CarsDatabase.instance.readAllCars();
   }
 
+  Future fillSvgCodeArray() async {
+    for (Car car in carArray) {
+      svgCodeArray.add(await car.toStringCode());
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     refreshCars();
+    fillSvgCodeArray();
   }
 
   @override
@@ -97,8 +105,8 @@ class _CollectionState extends State<Collection> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        SvgPicture.asset(
-                                          carArray[index],
+                                        SvgPicture.string(
+                                          svgCodeArray[index],
                                           width: 130,
                                           height: 120,
                                         ),
