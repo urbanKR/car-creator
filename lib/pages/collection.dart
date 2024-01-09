@@ -33,6 +33,7 @@ class _CollectionState extends State<Collection> {
   }
 
   Future fillSvgCodeArray() async {
+    svgCodeArray = [];
     for (Car car in carArray) {
       svgCodeArray.add(await car.toStringCode());
     }
