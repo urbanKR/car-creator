@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:carcreator/pages/glassColorSelection.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carcreator/models/Car.dart';
+import 'package:carcreator/models/svg_class.dart';
 
 class CarColorSelection extends StatefulWidget {
   final Car ourCar;
@@ -13,13 +14,26 @@ class CarColorSelection extends StatefulWidget {
 }
 
 class CarColorSelectionState extends State<CarColorSelection> {
-  Color selectedColor = Colors.black;
+  Color previousColor = const Color(0xFF020202);
+  Color selectedColor = const Color(0xFFFF1111);
   late Car ourCar;
+  late String svgCode = '';
 
   @override
   void initState() {
     super.initState();
     ourCar = widget.ourCar; // Initialize ourCar with the passed Car object
+
+    loadSvg();
+  }
+
+  Future<void> loadSvg() async {
+    final String svgString = await SvgClass.loadSvgString(ourCar.type);
+    setState(() {
+      svgCode = svgString.replaceAll(SvgClass.colorToHex(previousColor),
+          SvgClass.colorToHex(selectedColor));
+      ourCar.bodyColor = selectedColor;
+    });
   }
 
   @override
@@ -124,11 +138,8 @@ class CarColorSelectionState extends State<CarColorSelection> {
                     height: 260,
                     child: Container(
                       padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset(
-                        ourCar.type,
-                        colorFilter:
-                            ColorFilter.mode(selectedColor, BlendMode.srcIn),
-                        key: const ValueKey('groupBodyMain'),
+                      child: SvgPicture.string(
+                        svgCode, // Use the loaded SVG string here
                       ),
                     ),
                   ),

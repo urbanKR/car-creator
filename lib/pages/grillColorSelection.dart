@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:carcreator/pages/finalCarPreview.dart';
 import 'package:carcreator/models/Car.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:carcreator/models/svg_class.dart';
 
 class GrillColorSelection extends StatefulWidget {
   final Car ourCar;
@@ -13,13 +14,32 @@ class GrillColorSelection extends StatefulWidget {
 }
 
 class GrillColorSelectionState extends State<GrillColorSelection> {
-  Color selectedColor = Colors.grey;
+  Color defaultBodyColor = const Color(0xFF020202);
+  Color defaultGlassColor = const Color(0xFF99f8ff);
+  Color previousColor = const Color(0xFFfcfcfc);
+  Color selectedColor = const Color(0xFF90F030);
   late Car ourCar;
+  late String svgCode = '';
 
   @override
   void initState() {
     super.initState();
     ourCar = widget.ourCar; // Initialize ourCar with the passed Car object
+
+    loadSvg();
+  }
+
+  Future<void> loadSvg() async {
+    final String svgString = await SvgClass.loadSvgString(ourCar.type);
+    setState(() {
+      svgCode = svgString.replaceAll(SvgClass.colorToHex(previousColor),
+          SvgClass.colorToHex(selectedColor));
+      svgCode = svgCode.replaceAll(SvgClass.colorToHex(defaultBodyColor),
+          SvgClass.colorToHex(ourCar.bodyColor));
+      svgCode = svgCode.replaceAll(SvgClass.colorToHex(defaultGlassColor),
+          SvgClass.colorToHex(ourCar.glassColor));
+      ourCar.grillColor = selectedColor;
+    });
   }
 
   @override
@@ -124,11 +144,8 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
                     height: 260,
                     child: Container(
                       padding: const EdgeInsets.all(8.0),
-                      child: SvgPicture.asset(
-                        ourCar.type,
-                        colorFilter:
-                            ColorFilter.mode(selectedColor, BlendMode.srcIn),
-                        key: const ValueKey('groupGrill'),
+                      child: SvgPicture.string(
+                        svgCode, // Use the loaded SVG string here
                       ),
                     ),
                   ),
