@@ -37,7 +37,7 @@ CREATE TABLE $tableCars (
   ${CarFields.glassColor} $textType,
   ${CarFields.grillColor} $textType,
   ${CarFields.name} $textType,
-  ${CarFields.realisticCar} $textType,
+  ${CarFields.realisticCar} $textType
        )
     ''');
   }
