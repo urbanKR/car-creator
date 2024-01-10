@@ -13,29 +13,38 @@ class Collection extends StatefulWidget {
 }
 
 class _CollectionState extends State<Collection> {
-  // late List<Car> carArray;
+  late List<Car> carArray;
+  late List<String> svgCodeArray;
 
-  final List<String> carArray = const
-    [
-    //wrong size first??
-    // 'assets/graphics/Car1.svg',
-    'assets/graphics/Car2.svg',
-    'assets/graphics/Car3.svg',
-    'assets/graphics/Car4.svg',
-    'assets/graphics/Car2.svg',
-    'assets/graphics/Car3.svg',
-    'assets/graphics/Car4.svg',
-  ];
+  //final List<String> carArray = const
+  //  [
+  //wrong size first??
+  // 'assets/graphics/Car1.svg',
+  //'assets/graphics/Car2.svg',
+  //'assets/graphics/Car3.svg',
+  //'assets/graphics/Car4.svg',
+  //'assets/graphics/Car2.svg',
+  //'assets/graphics/Car3.svg',
+  //'assets/graphics/Car4.svg',
+  //];
 
-  // Future refreshCars() async {
-  //   carArray = await CarsDatabase.instance.readAllCars();
-  // }
+  Future refreshCars() async {
+    carArray = await CarsDatabase.instance.readAllCars();
+  }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   refreshCars();
-  // }
+  Future fillSvgCodeArray() async {
+    svgCodeArray = [];
+    for (Car car in carArray) {
+      svgCodeArray.add(await car.toStringCode());
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    refreshCars();
+    fillSvgCodeArray();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +106,8 @@ class _CollectionState extends State<Collection> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        SvgPicture.asset(
-                                          carArray[index],
+                                        SvgPicture.string(
+                                          svgCodeArray[index],
                                           width: 130,
                                           height: 120,
                                         ),
