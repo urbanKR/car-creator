@@ -17,19 +17,17 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
   Color defaultBodyColor = const Color(0xFF020202);
   Color defaultGlassColor = const Color(0xFF99f8ff);
   Color previousColor = const Color(0xFFfcfcfc);
-  Color selectedColor = const Color(0xFF90F030);
   late Car ourCar;
   late String svgCode = '';
 
   @override
   void initState() {
     super.initState();
-    ourCar = widget.ourCar; // Initialize ourCar with the passed Car object
-
-    loadSvg();
+    ourCar = widget.ourCar;
+    loadSvg(previousColor, previousColor);
   }
 
-  Future<void> loadSvg() async {
+  Future<void> loadSvg(Color previousColor, Color selectedColor) async {
     final String svgString = await SvgClass.loadSvgString(ourCar.type);
     setState(() {
       svgCode = svgString.replaceAll(SvgClass.colorToHex(previousColor),
@@ -76,7 +74,9 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
                   const SizedBox(
                     height: 20,
                   ),
-                  const ColorPicker(),
+                  ColorPicker(onColorSelected: (Color selected) {
+                    loadSvg(previousColor, selected);
+                  }),
                 ],
               ),
             ),
@@ -90,7 +90,6 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
           width: MediaQuery.of(context).size.width * 0.8,
           child: ElevatedButton(
             onPressed: () {
-              ourCar.grillColor = selectedColor;
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -233,7 +232,10 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
 }
 
 class ColorPicker extends StatefulWidget {
-  const ColorPicker({super.key});
+  final Function(Color) onColorSelected;
+
+  const ColorPicker({required this.onColorSelected, Key? key})
+      : super(key: key);
 
   @override
   State<ColorPicker> createState() => _ColorPickerState();
@@ -245,19 +247,21 @@ class _ColorPickerState extends State<ColorPicker> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        for (var i in grillColors.entries)
+        for (var i in carColors.entries)
           GestureDetector(
-              onTap: () {
-                setState(() {
-                  grillColors.updateAll((key, value) {
-                    if (key != i.key) {
-                      return value = false;
-                    }
-                    return value = true;
-                  });
+            onTap: () {
+              setState(() {
+                carColors.updateAll((key, value) {
+                  if (key != i.key) {
+                    return value = false;
+                  }
+                  widget.onColorSelected(i.key);
+                  return value = true;
                 });
-              },
-              child: ColorPickerItem(color: i.key, isChecked: i.value)),
+              });
+            },
+            child: ColorPickerItem(color: i.key, isChecked: i.value),
+          ),
       ],
     );
   }

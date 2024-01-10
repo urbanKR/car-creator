@@ -15,7 +15,7 @@ class FinalCarPreview extends StatefulWidget {
 
 class FinalCarPreviewState extends State<FinalCarPreview> {
   //test prompt
-  String textPrompt = "red car on the highway";
+  String textPrompt = "violet car with blue glass and yellow grill";
   bool isLoading = false;
   String carName = "";
   Color defaultBodyColor = const Color(0xFF020202);

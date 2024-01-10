@@ -16,19 +16,17 @@ class GlassColorSelection extends StatefulWidget {
 class GlassColorSelectionState extends State<GlassColorSelection> {
   Color defaultBodyColor = const Color(0xFF020202);
   Color previousColor = const Color(0xFF99f8ff);
-  Color selectedColor = const Color(0xFFF0F000);
   late Car ourCar;
   late String svgCode = '';
 
   @override
   void initState() {
     super.initState();
-    ourCar = widget.ourCar; // Initialize ourCar with the passed Car object
-
-    loadSvg();
+    ourCar = widget.ourCar;
+    loadSvg(previousColor, previousColor);
   }
 
-  Future<void> loadSvg() async {
+  Future<void> loadSvg(Color previousColor, Color selectedColor) async {
     final String svgString = await SvgClass.loadSvgString(ourCar.type);
     setState(() {
       svgCode = svgString.replaceAll(SvgClass.colorToHex(previousColor),
@@ -73,7 +71,9 @@ class GlassColorSelectionState extends State<GlassColorSelection> {
                   const SizedBox(
                     height: 30,
                   ),
-                  const ColorPicker(),
+                  ColorPicker(onColorSelected: (Color selected) {
+                    loadSvg(previousColor, selected);
+                  }),
                 ],
               ),
             ),
@@ -87,7 +87,6 @@ class GlassColorSelectionState extends State<GlassColorSelection> {
           width: MediaQuery.of(context).size.width * 0.8,
           child: ElevatedButton(
             onPressed: () {
-              ourCar.glassColor = selectedColor;
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -230,7 +229,10 @@ class GlassColorSelectionState extends State<GlassColorSelection> {
 }
 
 class ColorPicker extends StatefulWidget {
-  const ColorPicker({super.key});
+  final Function(Color) onColorSelected;
+
+  const ColorPicker({required this.onColorSelected, Key? key})
+      : super(key: key);
 
   @override
   State<ColorPicker> createState() => _ColorPickerState();
@@ -242,19 +244,21 @@ class _ColorPickerState extends State<ColorPicker> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        for (var i in glassColors.entries)
+        for (var i in carColors.entries)
           GestureDetector(
-              onTap: () {
-                setState(() {
-                  glassColors.updateAll((key, value) {
-                    if (key != i.key) {
-                      return value = false;
-                    }
-                    return value = true;
-                  });
+            onTap: () {
+              setState(() {
+                carColors.updateAll((key, value) {
+                  if (key != i.key) {
+                    return value = false;
+                  }
+                  widget.onColorSelected(i.key);
+                  return value = true;
                 });
-              },
-              child: ColorPickerItem(color: i.key, isChecked: i.value)),
+              });
+            },
+            child: ColorPickerItem(color: i.key, isChecked: i.value),
+          ),
       ],
     );
   }

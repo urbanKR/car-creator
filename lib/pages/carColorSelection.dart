@@ -15,23 +15,23 @@ class CarColorSelection extends StatefulWidget {
 
 class CarColorSelectionState extends State<CarColorSelection> {
   Color previousColor = const Color(0xFF020202);
-  Color selectedColor = const Color(0xFFFF1111);
   late Car ourCar;
   late String svgCode = '';
 
   @override
   void initState() {
     super.initState();
-    ourCar = widget.ourCar; // Initialize ourCar with the passed Car object
-
-    loadSvg();
+    ourCar = widget.ourCar;
+    loadSvg(previousColor, previousColor);
   }
 
-  Future<void> loadSvg() async {
+  Future<void> loadSvg(Color previousColor, Color selectedColor) async {
     final String svgString = await SvgClass.loadSvgString(ourCar.type);
     setState(() {
-      svgCode = svgString.replaceAll(SvgClass.colorToHex(previousColor),
-          SvgClass.colorToHex(selectedColor));
+      svgCode = svgString.replaceAll(
+        SvgClass.colorToHex(previousColor),
+        SvgClass.colorToHex(selectedColor),
+      );
       ourCar.bodyColor = selectedColor;
     });
   }
@@ -70,7 +70,9 @@ class CarColorSelectionState extends State<CarColorSelection> {
                   const SizedBox(
                     height: 30,
                   ),
-                  const ColorPicker(),
+                  ColorPicker(onColorSelected: (Color selected) {
+                    loadSvg(previousColor, selected);
+                  }),
                 ],
               ),
             ),
@@ -84,7 +86,6 @@ class CarColorSelectionState extends State<CarColorSelection> {
           width: MediaQuery.of(context).size.width * 0.8,
           child: ElevatedButton(
             onPressed: () {
-              ourCar.bodyColor = selectedColor;
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -227,7 +228,10 @@ class CarColorSelectionState extends State<CarColorSelection> {
 }
 
 class ColorPicker extends StatefulWidget {
-  const ColorPicker({super.key});
+  final Function(Color) onColorSelected;
+
+  const ColorPicker({required this.onColorSelected, Key? key})
+      : super(key: key);
 
   @override
   State<ColorPicker> createState() => _ColorPickerState();
@@ -241,17 +245,19 @@ class _ColorPickerState extends State<ColorPicker> {
       children: [
         for (var i in carColors.entries)
           GestureDetector(
-              onTap: () {
-                setState(() {
-                  carColors.updateAll((key, value) {
-                    if (key != i.key) {
-                      return value = false;
-                    }
-                    return value = true;
-                  });
+            onTap: () {
+              setState(() {
+                carColors.updateAll((key, value) {
+                  if (key != i.key) {
+                    return value = false;
+                  }
+                  widget.onColorSelected(i.key);
+                  return value = true;
                 });
-              },
-              child: ColorPickerItem(color: i.key, isChecked: i.value)),
+              });
+            },
+            child: ColorPickerItem(color: i.key, isChecked: i.value),
+          ),
       ],
     );
   }
