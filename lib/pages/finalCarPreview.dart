@@ -15,7 +15,7 @@ class FinalCarPreview extends StatefulWidget {
 
 class FinalCarPreviewState extends State<FinalCarPreview> {
   //test prompt
-  String textPrompt = "violet car with blue glass and yellow grill";
+  late String textPrompt;
   bool isLoading = false;
   String carName = "";
   Color defaultBodyColor = const Color(0xFF020202);
@@ -28,8 +28,29 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
   void initState() {
     super.initState();
     ourCar = widget.ourCar; // Initialize ourCar with the passed Car object
-
+    textPrompt = createPrompt();
     loadSvg();
+  }
+
+  String createPrompt() {
+    late String typeConverted;
+    String type = ourCar.type;
+    String glass = ourCar.glassColor.toString();
+    String body = ourCar.bodyColor.toString();
+    String grill = ourCar.grillColor.toString();
+
+    if (type == 'assets/graphics/Car1.svg') {
+      typeConverted = 'sport';
+    } else if (type == 'assets/graphics/Car2.svg') {
+      typeConverted = 'jeep';
+    } else if (type == 'assets/graphics/Car3.svg') {
+      typeConverted = 'daily';
+    } else if (type == 'assets/graphics/Car4.svg') {
+      typeConverted = 'SUV';
+    }
+
+    String result = '$body $typeConverted car with $glass glass and $grill grill';
+    return result;
   }
 
   Future<void> loadSvg() async {
