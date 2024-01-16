@@ -14,26 +14,13 @@ class Collection extends StatefulWidget {
 
 class _CollectionState extends State<Collection> {
   late List<Car> carArray;
-  late List<String> svgCodeArray;
+  late List<String> svgCodeArray = [];
 
-  //final List<String> carArray = const
-  //  [
-  //wrong size first??
-  // 'assets/graphics/Car1.svg',
-  //'assets/graphics/Car2.svg',
-  //'assets/graphics/Car3.svg',
-  //'assets/graphics/Car4.svg',
-  //'assets/graphics/Car2.svg',
-  //'assets/graphics/Car3.svg',
-  //'assets/graphics/Car4.svg',
-  //];
-
-  Future refreshCars() async {
+  Future<void> refreshCars() async {
     carArray = await CarsDatabase.instance.readAllCars();
   }
 
-  Future fillSvgCodeArray() async {
-    svgCodeArray = [];
+  Future<void> fillSvgCodeArray() async {
     for (Car car in carArray) {
       svgCodeArray.add(await car.toStringCode());
     }
@@ -48,115 +35,130 @@ class _CollectionState extends State<Collection> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          _buildChessboard(context),
-          _buildLeftCircleWidget(context),
-          _buildRightCircleWidget(context),
-          _buildArrowBackButton(context),
-          Align(
-            alignment: Alignment.center,
-            child: FractionalTranslation(
-              translation: const Offset(0.0, 0.01),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: FractionalTranslation(
-                      translation: const Offset(0.0, 0.01),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        //Collection
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text(
-                            'Collection',
-                            style: TextStyle(
-                              fontSize: 50,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          //Collection items
-                          SizedBox(
-                            height: 440,
-                            child: ListView.builder(
-                              itemCount: carArray.length,
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const CollectionCarPreview(),
-                                      ),
-                                    );
-                                  },
-                                  child: Container(
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.string(
-                                          svgCodeArray[index],
-                                          width: 130,
-                                          height: 120,
-                                        ),
-                                        const SizedBox(width: 40),
-                                        Column(
-                                          children: [
-                                            Text(
-                                              'Car ${index + 1}',
-                                              style: const TextStyle(
-                                                fontSize: 25,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            const Text(
-                                              'Creation Date',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            const Text(
-                                              '01.01.2024',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
+    return FutureBuilder(
+      future: refreshCars(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          // Asynchronous operations completed, now you can build your widget
+          return Scaffold(
+            body: Stack(
+              children: [
+                _buildChessboard(context),
+                _buildLeftCircleWidget(context),
+                _buildRightCircleWidget(context),
+                _buildArrowBackButton(context),
+                Align(
+                  alignment: Alignment.center,
+                  child: FractionalTranslation(
+                    translation: const Offset(0.0, 0.01),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: FractionalTranslation(
+                            translation: const Offset(0.0, 0.01),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              //Collection
+                              children: [
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                const Text(
+                                  'Collection',
+                                  style: TextStyle(
+                                    fontSize: 50,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                );
-                              },
+                                ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                //Collection items
+                                SizedBox(
+                                  height: 440,
+                                  child: ListView.builder(
+                                    itemCount: carArray.length,
+                                    itemBuilder: (context, index) {
+                                      return InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                              const CollectionCarPreview(),
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 8),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                            children: [
+                                              SvgPicture.string(
+                                                svgCodeArray[index],
+                                                width: 130,
+                                                height: 120,
+                                              ),
+                                              const SizedBox(width: 40),
+                                              Column(
+                                                children: [
+                                                  Text(
+                                                    'Car ${index + 1}',
+                                                    style: const TextStyle(
+                                                      fontSize: 25,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  const Text(
+                                                    'Creation Date',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  const Text(
+                                                    '01.01.2024',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
+          );
+        } else {
+          // Asynchronous operations still in progress, you can show a loading indicator
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
     );
   }
 
@@ -172,21 +174,21 @@ class _CollectionState extends State<Collection> {
         child: Column(
           children: List.generate(
             4,
-            (i) => Row(
+                (i) => Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
                 15,
-                (j) => Container(
+                    (j) => Container(
                   width: MediaQuery.of(context).size.width / 15,
                   height: 25,
                   decoration: BoxDecoration(
                     color: (i % 2 == 0)
                         ? (j % 2 == 0)
-                            ? Colors.black
-                            : Colors.white
+                        ? Colors.black
+                        : Colors.white
                         : (j % 2 == 0)
-                            ? Colors.white
-                            : Colors.black,
+                        ? Colors.white
+                        : Colors.black,
                   ),
                 ),
               ),

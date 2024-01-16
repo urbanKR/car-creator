@@ -71,6 +71,11 @@ CREATE TABLE $tableCars (
 
     final result = await db.query(tableCars);
 
+    List<Car> cars = result.map((json) => Car.fromJson(json)).toList();
+    for(Car car in cars) {
+      print(car.name);
+    }
+
     return result.map((json) => Car.fromJson(json)).toList();
   }
 
