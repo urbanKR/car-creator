@@ -5,6 +5,7 @@ import 'package:carcreator/pages/finalRealisticCarPreview.dart';
 import 'package:carcreator/utils/errorDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 
 Future<dynamic> convertTextToImage(
@@ -48,6 +49,7 @@ Future<dynamic> convertTextToImage(
 
   if (response.statusCode == 200) {
     try {
+      EasyLoading.showSuccess('Car Generated');
       imageData = (response.bodyBytes);
       Navigator.push(
         context,
