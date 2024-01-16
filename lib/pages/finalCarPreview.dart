@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:carcreator/api/aiImageApi.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carcreator/models/Car.dart';
 import 'package:carcreator/models/svg_class.dart';
@@ -23,6 +26,8 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
   Color defaultGrillColor = const Color(0xFFfcfcfc);
   late Car ourCar;
   late String svgCode = '';
+  Timer? _timer;
+  late double _progress;
 
   @override
   void initState() {
@@ -30,6 +35,12 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
     ourCar = widget.ourCar; // Initialize ourCar with the passed Car object
     textPrompt = createPrompt();
     loadSvg();
+    EasyLoading.addStatusCallback((status) {
+      print('EasyLoading Status $status');
+      if (status == EasyLoadingStatus.dismiss) {
+        _timer?.cancel();
+      }
+    });
   }
 
   String createPrompt() {
@@ -49,7 +60,8 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
       typeConverted = 'SUV';
     }
 
-    String result = '$body $typeConverted car with $glass glass and $grill grill';
+    String result =
+        '$body $typeConverted car with $glass glass and $grill grill';
     return result;
   }
 
@@ -149,6 +161,19 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
                                 convertTextToImage(textPrompt, ourCar, context);
                                 isLoading = true;
                                 setState(() {});
+                                _progress = 0;
+                                _timer?.cancel();
+                                _timer = Timer.periodic(
+                                    const Duration(milliseconds: 100),
+                                    (Timer timer) {
+                                  EasyLoading.showProgress(_progress,
+                                      status:
+                                          '${(_progress * 100).toStringAsFixed(0)}%');
+                                  _progress += 0.003;
+                                  if (_progress >= 1) {
+                                    _timer?.cancel();
+                                  }
+                                });
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.all(20.0),
@@ -157,10 +182,7 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
                                   borderRadius: BorderRadius.circular(20.0),
                                 ),
                               ),
-                              child: isLoading
-                                  ? const CircularProgressIndicator(
-                                  color: Colors.black)
-                                  : const Text(
+                              child: const Text(
                                 'Show concept',
                                 style: TextStyle(
                                   fontSize: 30,
@@ -186,7 +208,6 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
       ),
     );
   }
-
 
   Widget _buildChessboard(BuildContext context) {
     return Positioned(
