@@ -84,7 +84,7 @@ class _CollectionState extends State<Collection> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                              const CollectionCarPreview(),
+                                              CollectionCarPreview(index: index),
                                             ),
                                           );
                                         },

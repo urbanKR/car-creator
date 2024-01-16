@@ -1,120 +1,177 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
 import 'package:carcreator/pages/collectionRealisticCarPreview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../database_helper.dart';
+import '../models/Car.dart';
+
 class CollectionCarPreview extends StatefulWidget {
-  const CollectionCarPreview({Key? key}) : super(key: key);
+  final int index;
+  const CollectionCarPreview({Key? key, required this.index}) : super(key: key);
 
   @override
   _CollectionCarPreviewState createState() => _CollectionCarPreviewState();
 }
 
 class _CollectionCarPreviewState extends State<CollectionCarPreview> {
-  final List<String> carArray = const [
-    //wrong size first??
-    // 'assets/graphics/Car1.svg',
-    'assets/graphics/Car2.svg',
-    'assets/graphics/Car3.svg',
-    'assets/graphics/Car4.svg',
-    'assets/graphics/Car2.svg',
-    'assets/graphics/Car3.svg',
-    'assets/graphics/Car4.svg',
-  ];
+  late List<Car> carArray;
+  late List<String> svgCodeArray;
+
+  Future<void> refreshCars() async {
+    carArray = await CarsDatabase.instance.readAllCars();
+    await fillSvgCodeArray();
+  }
+
+  Future<void> fillSvgCodeArray() async {
+    svgCodeArray = [];
+    for (Car car in carArray) {
+      svgCodeArray.add(await car.toStringCode());
+    }
+  }
+
+  Future<void> deleteCar() async {
+    await CarsDatabase.instance.delete(carArray[widget.index].id!);
+    await refreshCars(); // Refresh the car data
+    setState(() {}); // Trigger a rebuild of the widget tree
+    Navigator.pop(context); // Navigate back to the previous page
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    refreshCars();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          _buildChessboard(context),
-          _buildLeftCircleWidget(context),
-          _buildRightCircleWidget(context),
-          _buildArrowBackButton(context),
-          Align(
-            alignment: Alignment.center,
-            child: FractionalTranslation(
-              translation: const Offset(0.0, 0.01),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: FractionalTranslation(
-                      translation: const Offset(0.0, 0.01),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        //Car Preview Items
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text(
-                            'Car1',
-                            style: TextStyle(
-                              fontSize: 50,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 50,
-                          ),
-                          //Car svg
-                          SizedBox(
-                            width: 260,
-                            height: 260,
-                            child: Container(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(carArray[0]),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          //btn
-                          SizedBox(
-                            width: 0.9 * MediaQuery.of(context).size.width,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const CollectionRealisticCarPreview(),
+    return FutureBuilder(
+      future: refreshCars(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Scaffold(
+            body: Stack(
+              children: [
+                _buildChessboard(context),
+                _buildLeftCircleWidget(context),
+                _buildRightCircleWidget(context),
+                _buildArrowBackButton(context),
+                Align(
+                  alignment: Alignment.center,
+                  child: FractionalTranslation(
+                    translation: const Offset(0.0, 0.01),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: FractionalTranslation(
+                            translation: const Offset(0.0, 0.01),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  carArray[widget.index].name ?? 'unnamed',
+                                  style: const TextStyle(
+                                    fontSize: 50,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.all(20.0),
-                                backgroundColor: Colors.red,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40.0),
                                 ),
-                              ),
-                              child: const Text(
-                                'Show concept',
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                                const SizedBox(
+                                  height: 50,
                                 ),
-                              ),
+                                //Car svg
+                                SizedBox(
+                                  width: 260,
+                                  height: 260,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SvgPicture.string(
+                                      svgCodeArray.isNotEmpty
+                                          ? svgCodeArray[widget.index]
+                                          : '',
+                                      width: MediaQuery.of(context).size.width * 0.35,
+                                      height: MediaQuery.of(context).size.width * 0.35,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                //btn
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                            const CollectionRealisticCarPreview(),
+                                          ),
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        padding: const EdgeInsets.all(20.0),
+                                        backgroundColor: Colors.red,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(40.0),
+                                        ),
+                                      ),
+                                      child: const Text(
+                                        'Show concept',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: deleteCar,
+                                      style: ElevatedButton.styleFrom(
+                                        padding: const EdgeInsets.all(20.0),
+                                        backgroundColor: Colors.blue,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(40.0),
+                                        ),
+                                      ),
+                                      child: const Text(
+                                        'Delete Car',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
+          );
+        } else {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
     );
   }
 
@@ -130,21 +187,21 @@ class _CollectionCarPreviewState extends State<CollectionCarPreview> {
         child: Column(
           children: List.generate(
             4,
-            (i) => Row(
+                (i) => Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
                 15,
-                (j) => Container(
+                    (j) => Container(
                   width: MediaQuery.of(context).size.width / 15,
                   height: 25,
                   decoration: BoxDecoration(
                     color: (i % 2 == 0)
                         ? (j % 2 == 0)
-                            ? Colors.black
-                            : Colors.white
+                        ? Colors.black
+                        : Colors.white
                         : (j % 2 == 0)
-                            ? Colors.white
-                            : Colors.black,
+                        ? Colors.white
+                        : Colors.black,
                   ),
                 ),
               ),
