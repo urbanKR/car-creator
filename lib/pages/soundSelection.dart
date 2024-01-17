@@ -323,7 +323,7 @@ class SoundSelectionState extends State<SoundSelection> {
       body: Stack(
         children: [
           Positioned(
-            bottom: MediaQuery.of(context).size.height * 0.14,
+            bottom: MediaQuery.of(context).size.height * 0.22,
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: 470,

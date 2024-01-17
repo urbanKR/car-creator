@@ -392,7 +392,7 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
   Widget _buildCarButtons(
       BuildContext context, Color selectedColor, Color unselectedColor) {
     return Positioned(
-      bottom: MediaQuery.of(context).size.height * 0.14,
+      bottom: MediaQuery.of(context).size.height * 0.22,
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: 470,
