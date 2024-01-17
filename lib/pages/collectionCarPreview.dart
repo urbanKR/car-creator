@@ -1,4 +1,3 @@
-import 'package:carcreator/pages/collectionRealisticCarPreview.dart';
 import 'package:carcreator/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,7 +33,10 @@ class _CollectionCarPreviewState extends State<CollectionCarPreview> {
     await CarsDatabase.instance.delete(carArray[widget.index].id!);
     await refreshCars(); // Refresh the car data
     setState(() {}); // Trigger a rebuild of the widget tree
-    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(),
       ),
     );
   }
@@ -95,8 +97,11 @@ class _CollectionCarPreviewState extends State<CollectionCarPreview> {
                                       svgCodeArray.isNotEmpty
                                           ? svgCodeArray[widget.index]
                                           : '',
-                                      width: MediaQuery.of(context).size.width * 0.35,
-                                      height: MediaQuery.of(context).size.width * 0.35,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.35,
+                                      height:
+                                          MediaQuery.of(context).size.width *
+                                              0.35,
                                     ),
                                   ),
                                 ),
@@ -105,7 +110,8 @@ class _CollectionCarPreviewState extends State<CollectionCarPreview> {
                                 ),
                                 //btn
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
                                     // ElevatedButton(
                                     //   onPressed: () {
@@ -139,7 +145,8 @@ class _CollectionCarPreviewState extends State<CollectionCarPreview> {
                                         padding: const EdgeInsets.all(20.0),
                                         backgroundColor: Colors.blue,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(40.0),
+                                          borderRadius:
+                                              BorderRadius.circular(40.0),
                                         ),
                                       ),
                                       child: const Text(
@@ -190,21 +197,21 @@ class _CollectionCarPreviewState extends State<CollectionCarPreview> {
         child: Column(
           children: List.generate(
             4,
-                (i) => Row(
+            (i) => Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
                 15,
-                    (j) => Container(
+                (j) => Container(
                   width: MediaQuery.of(context).size.width / 15,
                   height: 25,
                   decoration: BoxDecoration(
                     color: (i % 2 == 0)
                         ? (j % 2 == 0)
-                        ? Colors.black
-                        : Colors.white
+                            ? Colors.black
+                            : Colors.white
                         : (j % 2 == 0)
-                        ? Colors.white
-                        : Colors.black,
+                            ? Colors.white
+                            : Colors.black,
                   ),
                 ),
               ),

@@ -101,9 +101,9 @@ class Car {
         CarFields.id: id,
         CarFields.type: type,
         CarFields.soundId: soundId,
-        CarFields.bodyColor: bodyColor?.value.toRadixString(16),
-        CarFields.glassColor: glassColor?.value.toRadixString(16),
-        CarFields.grillColor: grillColor?.value.toRadixString(16),
+        CarFields.bodyColor: bodyColor.value.toRadixString(16),
+        CarFields.glassColor: glassColor.value.toRadixString(16),
+        CarFields.grillColor: grillColor.value.toRadixString(16),
         CarFields.name: name,
         CarFields.realisticCar: realisticCar?.path,
       };

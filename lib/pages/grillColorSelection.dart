@@ -43,7 +43,6 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Stack(
@@ -295,9 +294,9 @@ class ColorPickerItem extends StatelessWidget {
         radius: radius,
         child: isChecked
             ? Icon(
-          Icons.check,
-          size: 1.5 * radius,
-        )
+                Icons.check,
+                size: 1.5 * radius,
+              )
             : null,
       ),
     );
