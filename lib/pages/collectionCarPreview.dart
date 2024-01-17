@@ -1,4 +1,5 @@
 import 'package:carcreator/pages/collectionRealisticCarPreview.dart';
+import 'package:carcreator/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -33,7 +34,9 @@ class _CollectionCarPreviewState extends State<CollectionCarPreview> {
     await CarsDatabase.instance.delete(carArray[widget.index].id!);
     await refreshCars(); // Refresh the car data
     setState(() {}); // Trigger a rebuild of the widget tree
-    Navigator.pop(context); // Navigate back to the previous page
+    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(),
+      ),
+    );
   }
 
   @override
@@ -104,32 +107,32 @@ class _CollectionCarPreviewState extends State<CollectionCarPreview> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                            const CollectionRealisticCarPreview(),
-                                          ),
-                                        );
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        padding: const EdgeInsets.all(20.0),
-                                        backgroundColor: Colors.red,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(40.0),
-                                        ),
-                                      ),
-                                      child: const Text(
-                                        'Show concept',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
+                                    // ElevatedButton(
+                                    //   onPressed: () {
+                                    //     Navigator.push(
+                                    //       context,
+                                    //       MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //         const CollectionRealisticCarPreview(),
+                                    //       ),
+                                    //     );
+                                    //   },
+                                    //   style: ElevatedButton.styleFrom(
+                                    //     padding: const EdgeInsets.all(20.0),
+                                    //     backgroundColor: Colors.red,
+                                    //     shape: RoundedRectangleBorder(
+                                    //       borderRadius: BorderRadius.circular(40.0),
+                                    //     ),
+                                    //   ),
+                                    //   child: const Text(
+                                    //     'Show concept',
+                                    //     style: TextStyle(
+                                    //       fontSize: 20,
+                                    //       color: Colors.white,
+                                    //       fontWeight: FontWeight.bold,
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     ElevatedButton(
                                       onPressed: deleteCar,
                                       style: ElevatedButton.styleFrom(

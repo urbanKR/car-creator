@@ -345,7 +345,15 @@ class SoundSelectionState extends State<SoundSelection> {
                       if (index == 0) {
                         player.play(AssetSource('sounds/carSound1.mp3'));
                       }
-                      // ... (similar logic for other indices)
+                      if (index == 1) {
+                        player.play(AssetSource('sounds/carSound2.wav'));
+                      }
+                      if (index == 2) {
+                        player.play(AssetSource('sounds/carSound3.wav'));
+                      }
+                      if (index == 3) {
+                        player.play(AssetSource('sounds/carSound4.mp3'));
+                      }
                       setState(() {
                         selectedButtonIndex =
                         selectedButtonIndex == index ? -1 : index;

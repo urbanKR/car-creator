@@ -67,15 +67,25 @@ class _CollectionState extends State<Collection> {
                                 Text(
                                   'Collection',
                                   style: TextStyle(
-                                    fontSize:  MediaQuery.of(context).size.width * 0.15,
+                                    fontSize: MediaQuery.of(context).size.width * 0.15,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(height:  MediaQuery.of(context).size.width * 0.05),
+                                SizedBox(height: MediaQuery.of(context).size.width * 0.05),
                                 //Collection items
                                 SizedBox(
-                                  height:  MediaQuery.of(context).size.height * 0.6,
-                                  child: ListView.builder(
+                                  height: MediaQuery.of(context).size.height * 0.6,
+                                  child: carArray.isEmpty
+                                      ? Center(
+                                    child: Text(
+                                      'Collection is empty',
+                                      style: TextStyle(
+                                        fontSize: MediaQuery.of(context).size.width * 0.1,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  )
+                                      : ListView.builder(
                                     itemCount: carArray.length,
                                     itemBuilder: (context, index) {
                                       return InkWell(
@@ -83,8 +93,7 @@ class _CollectionState extends State<Collection> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) =>
-                                              CollectionCarPreview(index: index),
+                                              builder: (context) => CollectionCarPreview(index: index),
                                             ),
                                           );
                                         },
@@ -95,12 +104,12 @@ class _CollectionState extends State<Collection> {
                                             children: [
                                               SvgPicture.string(
                                                 svgCodeArray[index],
-                                                width:  MediaQuery.of(context).size.width * 0.35,
-                                                height:  MediaQuery.of(context).size.width * 0.35,
+                                                width: MediaQuery.of(context).size.width * 0.35,
+                                                height: MediaQuery.of(context).size.width * 0.35,
                                               ),
-                                              SizedBox(width:  MediaQuery.of(context).size.width * 0.2),
+                                              SizedBox(width: MediaQuery.of(context).size.width * 0.2),
                                               Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start, // Align text to the left
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   FittedBox(
                                                     fit: BoxFit.scaleDown,
@@ -121,7 +130,7 @@ class _CollectionState extends State<Collection> {
                                     },
                                   ),
                                 ),
-                                SizedBox(height:  MediaQuery.of(context).size.width * 0.05),
+                                SizedBox(height: MediaQuery.of(context).size.width * 0.05),
                               ],
                             ),
                           ),
