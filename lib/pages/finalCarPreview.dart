@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:carcreator/api/aiImageApi.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carcreator/models/Car.dart';
 import 'package:carcreator/models/svg_class.dart';
@@ -15,7 +18,7 @@ class FinalCarPreview extends StatefulWidget {
 
 class FinalCarPreviewState extends State<FinalCarPreview> {
   //test prompt
-  String textPrompt = "violet car with blue glass and yellow grill";
+  late String textPrompt;
   bool isLoading = false;
   String carName = "";
   Color defaultBodyColor = const Color(0xFF020202);
@@ -23,13 +26,43 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
   Color defaultGrillColor = const Color(0xFFfcfcfc);
   late Car ourCar;
   late String svgCode = '';
+  Timer? _timer;
+  late double _progress;
 
   @override
   void initState() {
     super.initState();
     ourCar = widget.ourCar; // Initialize ourCar with the passed Car object
-
+    textPrompt = createPrompt();
     loadSvg();
+    EasyLoading.addStatusCallback((status) {
+      print('EasyLoading Status $status');
+      if (status == EasyLoadingStatus.dismiss) {
+        _timer?.cancel();
+      }
+    });
+  }
+
+  String createPrompt() {
+    late String typeConverted;
+    String type = ourCar.type;
+    String glass = ourCar.glassColor.toString();
+    String body = ourCar.bodyColor.toString();
+    String grill = ourCar.grillColor.toString();
+
+    if (type == 'assets/graphics/Car1.svg') {
+      typeConverted = 'sport';
+    } else if (type == 'assets/graphics/Car2.svg') {
+      typeConverted = 'jeep';
+    } else if (type == 'assets/graphics/Car3.svg') {
+      typeConverted = 'daily';
+    } else if (type == 'assets/graphics/Car4.svg') {
+      typeConverted = 'SUV';
+    }
+
+    String result =
+        '$body $typeConverted car with $glass glass and $grill grill';
+    return result;
   }
 
   Future<void> loadSvg() async {
@@ -70,6 +103,8 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -89,7 +124,6 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
                       translation: const Offset(0.0, 0.01),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        //Car Preview Items
                         children: [
                           const SizedBox(
                             height: 10,
@@ -102,12 +136,12 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
                             ),
                           ),
                           const SizedBox(
-                            height: 50,
+                            height: 20,
                           ),
-                          //Car svg
+                          // Car svg
                           SizedBox(
-                            width: 260,
-                            height: 260,
+                            width: screenWidth * 0.8,
+                            height: screenWidth * 0.8,
                             child: Container(
                               padding: const EdgeInsets.all(8.0),
                               child: SvgPicture.string(
@@ -116,36 +150,46 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
                             ),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 40,
                           ),
-                          //btn
+                          // Button
                           SizedBox(
-                            width: 0.9 * MediaQuery.of(context).size.width,
+                            width: screenWidth * 0.8,
                             child: ElevatedButton(
                               onPressed: () {
                                 ourCar.name = carName;
                                 convertTextToImage(textPrompt, ourCar, context);
                                 isLoading = true;
                                 setState(() {});
+                                _progress = 0;
+                                _timer?.cancel();
+                                _timer = Timer.periodic(
+                                    const Duration(milliseconds: 100),
+                                    (Timer timer) {
+                                  EasyLoading.showProgress(_progress,
+                                      status:
+                                          '${(_progress * 100).toStringAsFixed(0)}%');
+                                  _progress += 0.003;
+                                  if (_progress >= 1) {
+                                    _timer?.cancel();
+                                  }
+                                });
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.all(20.0),
                                 backgroundColor: Colors.red,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40.0),
+                                  borderRadius: BorderRadius.circular(20.0),
                                 ),
                               ),
-                              child: isLoading
-                                  ? const CircularProgressIndicator(
-                                      color: Colors.black)
-                                  : const Text(
-                                      'Show concept',
-                                      style: TextStyle(
-                                        fontSize: 30,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
+                              child: const Text(
+                                'Show concept',
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(
@@ -203,12 +247,14 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
   }
 
   Widget _buildLeftCircleWidget(BuildContext context) {
+    double circleSize = MediaQuery.of(context).size.width * 0.65;
+
     return Positioned(
-      top: -120,
-      left: 20,
+      top: -circleSize * 0.5,
+      left: circleSize * 0.1,
       child: Container(
-        width: 260,
-        height: 260,
+        width: circleSize,
+        height: circleSize,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.red.withOpacity(0.4),
@@ -218,12 +264,14 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
   }
 
   Widget _buildRightCircleWidget(BuildContext context) {
+    double circleSize = MediaQuery.of(context).size.width * 0.65;
+
     return Positioned(
       top: -10,
-      left: -140,
+      left: -circleSize * 0.6,
       child: Container(
-        width: 260,
-        height: 260,
+        width: circleSize,
+        height: circleSize,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.red.withOpacity(0.4),
@@ -233,15 +281,17 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
   }
 
   Widget _buildArrowBackButton(BuildContext context) {
+    double buttonSize = MediaQuery.of(context).size.width * 0.1;
+
     return Positioned(
-      top: 40,
-      left: 20,
+      top: MediaQuery.of(context).size.height * 0.05,
+      left: MediaQuery.of(context).size.width * 0.05,
       child: Container(
-        width: 40,
-        height: 40,
+        width: buttonSize,
+        height: buttonSize,
         decoration: BoxDecoration(
           color: Colors.red,
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(buttonSize / 2),
         ),
         child: IconButton(
           icon: const Icon(

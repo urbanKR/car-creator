@@ -38,6 +38,8 @@ class CarColorSelectionState extends State<CarColorSelection> {
 
   @override
   Widget build(BuildContext context) {
+    double buttonSize = MediaQuery.of(context).size.width * 0.1;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -45,7 +47,7 @@ class CarColorSelectionState extends State<CarColorSelection> {
           _buildLeftCircleWidget(context),
           _buildRightCircleWidget(context),
           _buildHeader(context),
-          _buildArrowBackButton(context),
+          _buildArrowBackButton(context, buttonSize),
           Align(
             alignment: Alignment.center,
             child: FractionalTranslation(
@@ -58,8 +60,8 @@ class CarColorSelectionState extends State<CarColorSelection> {
                     height: 10,
                   ),
                   SizedBox(
-                    width: 260,
-                    height: 260,
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    height: MediaQuery.of(context).size.width * 0.7,
                     child: Container(
                       padding: const EdgeInsets.all(8.0),
                       child: SvgPicture.string(
@@ -147,12 +149,14 @@ class CarColorSelectionState extends State<CarColorSelection> {
   }
 
   Widget _buildLeftCircleWidget(BuildContext context) {
+    double circleSize = MediaQuery.of(context).size.width * 0.65;
+
     return Positioned(
-      top: -120,
-      left: 20,
+      top: -circleSize * 0.5,
+      left: circleSize * 0.1,
       child: Container(
-        width: 260,
-        height: 260,
+        width: circleSize,
+        height: circleSize,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.red.withOpacity(0.4),
@@ -162,12 +166,14 @@ class CarColorSelectionState extends State<CarColorSelection> {
   }
 
   Widget _buildRightCircleWidget(BuildContext context) {
+    double circleSize = MediaQuery.of(context).size.width * 0.65;
+
     return Positioned(
       top: -10,
-      left: -140,
+      left: -circleSize * 0.6,
       child: Container(
-        width: 260,
-        height: 260,
+        width: circleSize,
+        height: circleSize,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.red.withOpacity(0.4),
@@ -202,16 +208,16 @@ class CarColorSelectionState extends State<CarColorSelection> {
     );
   }
 
-  Widget _buildArrowBackButton(BuildContext context) {
+  Widget _buildArrowBackButton(BuildContext context, double buttonSize) {
     return Positioned(
-      top: 40,
-      left: 20,
+      top: MediaQuery.of(context).size.height * 0.05,
+      left: MediaQuery.of(context).size.width * 0.05,
       child: Container(
-        width: 40,
-        height: 40,
+        width: buttonSize,
+        height: buttonSize,
         decoration: BoxDecoration(
           color: Colors.red,
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(buttonSize / 2),
         ),
         child: IconButton(
           icon: const Icon(
@@ -272,16 +278,18 @@ class ColorPickerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double radius = MediaQuery.of(context).size.width * 0.08;
+
     return CircleAvatar(
       backgroundColor: Colors.black,
-      radius: 29,
+      radius: radius * 1.1,
       child: CircleAvatar(
         backgroundColor: color,
-        radius: 26,
+        radius: radius,
         child: isChecked
-            ? const Icon(
+            ? Icon(
                 Icons.check,
-                size: 35,
+                size: 1.5 * radius,
               )
             : null,
       ),

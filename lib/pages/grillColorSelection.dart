@@ -42,6 +42,8 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -62,8 +64,8 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
                     height: 10,
                   ),
                   SizedBox(
-                    width: 260,
-                    height: 260,
+                    width: screenWidth * 0.7,
+                    height: screenWidth * 0.7,
                     child: Container(
                       padding: const EdgeInsets.all(8.0),
                       child: SvgPicture.string(
@@ -72,7 +74,7 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 30,
                   ),
                   ColorPicker(onColorSelected: (Color selected) {
                     loadSvg(previousColor, selected);
@@ -151,12 +153,14 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
   }
 
   Widget _buildLeftCircleWidget(BuildContext context) {
+    double circleSize = MediaQuery.of(context).size.width * 0.65;
+
     return Positioned(
-      top: -120,
-      left: 20,
+      top: -circleSize * 0.5,
+      left: circleSize * 0.1,
       child: Container(
-        width: 260,
-        height: 260,
+        width: circleSize,
+        height: circleSize,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.red.withOpacity(0.4),
@@ -166,12 +170,14 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
   }
 
   Widget _buildRightCircleWidget(BuildContext context) {
+    double circleSize = MediaQuery.of(context).size.width * 0.65;
+
     return Positioned(
       top: -10,
-      left: -140,
+      left: -circleSize * 0.6,
       child: Container(
-        width: 260,
-        height: 260,
+        width: circleSize,
+        height: circleSize,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.red.withOpacity(0.4),
@@ -207,15 +213,17 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
   }
 
   Widget _buildArrowBackButton(BuildContext context) {
+    double buttonSize = MediaQuery.of(context).size.width * 0.1;
+
     return Positioned(
-      top: 40,
-      left: 20,
+      top: MediaQuery.of(context).size.height * 0.05,
+      left: MediaQuery.of(context).size.width * 0.05,
       child: Container(
-        width: 40,
-        height: 40,
+        width: buttonSize,
+        height: buttonSize,
         decoration: BoxDecoration(
           color: Colors.red,
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(buttonSize / 2),
         ),
         child: IconButton(
           icon: const Icon(
@@ -276,16 +284,18 @@ class ColorPickerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double radius = MediaQuery.of(context).size.width * 0.08;
+
     return CircleAvatar(
       backgroundColor: Colors.black,
-      radius: 29,
+      radius: radius * 1.1,
       child: CircleAvatar(
         backgroundColor: color,
-        radius: 26,
+        radius: radius,
         child: isChecked
-            ? const Icon(
+            ? Icon(
                 Icons.check,
-                size: 35,
+                size: 1.5 * radius,
               )
             : null,
       ),

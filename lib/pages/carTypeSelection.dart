@@ -20,6 +20,18 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
 
   int selectedButtonIndex = -1;
 
+  double calculateButtonSize(BuildContext context) {
+    return MediaQuery.of(context).size.width / 2 - 12.0;
+  }
+
+  double calculateChessboardCellSize(BuildContext context) {
+    return MediaQuery.of(context).size.width / 15;
+  }
+
+  double calculateCircleSize(BuildContext context) {
+    return MediaQuery.of(context).size.width * 0.65;
+  }
+
   @override
   Widget build(BuildContext context) {
     Color selectedColor = Color.fromARGB(255, 184, 6, 6);
@@ -33,7 +45,7 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
           _buildLeftCircleWidget(context),
           _buildRightCircleWidget(context),
           _buildHeader(context),
-          _buildArrowBackButton(context)
+          _buildArrowBackButton(context),
         ],
       ),
       floatingActionButton:
@@ -58,7 +70,7 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
               children: List.generate(
                 15,
                 (j) => Container(
-                  width: MediaQuery.of(context).size.width / 15,
+                  width: calculateChessboardCellSize(context),
                   height: 25,
                   decoration: BoxDecoration(
                     color: (i % 2 == 0)
@@ -80,11 +92,11 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
 
   Widget _buildLeftCircleWidget(BuildContext context) {
     return Positioned(
-      top: -120,
-      left: 20,
+      top: -calculateCircleSize(context) * 0.5,
+      left: calculateCircleSize(context) * 0.1,
       child: Container(
-        width: 260,
-        height: 260,
+        width: calculateCircleSize(context),
+        height: calculateCircleSize(context),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.red.withOpacity(0.4),
@@ -96,10 +108,10 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
   Widget _buildRightCircleWidget(BuildContext context) {
     return Positioned(
       top: -10,
-      left: -140,
+      left: -calculateCircleSize(context) * 0.6,
       child: Container(
-        width: 260,
-        height: 260,
+        width: calculateCircleSize(context),
+        height: calculateCircleSize(context),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.red.withOpacity(0.4),
@@ -137,10 +149,10 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
   Widget _buildCarButtons(
       BuildContext context, Color selectedColor, Color unselectedColor) {
     return Positioned(
-      bottom: 160,
+      bottom: MediaQuery.of(context).size.height * 0.22,
       child: Container(
         width: MediaQuery.of(context).size.width,
-        height: 450,
+        height: 470,
         margin: const EdgeInsets.only(bottom: 16.0),
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -181,16 +193,42 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
     );
   }
 
+  // Widget _buildArrowBackButton(BuildContext context) {
+  //   return Positioned(
+  //     top: 40,
+  //     left: 20,
+  //     child: Container(
+  //       width: 40,
+  //       height: 40,
+  //       decoration: BoxDecoration(
+  //         color: Colors.red,
+  //         borderRadius: BorderRadius.circular(20.0),
+  //       ),
+  //       child: IconButton(
+  //         icon: const Icon(
+  //           Icons.arrow_back,
+  //           color: Colors.white,
+  //         ),
+  //         onPressed: () {
+  //           Navigator.pop(context);
+  //         },
+  //       ),
+  //     ),
+  //   );
+  // }
+
   Widget _buildArrowBackButton(BuildContext context) {
+    double buttonSize = MediaQuery.of(context).size.width * 0.1;
+
     return Positioned(
-      top: 40,
-      left: 20,
+      top: MediaQuery.of(context).size.height * 0.05,
+      left: MediaQuery.of(context).size.width * 0.05,
       child: Container(
-        width: 40,
-        height: 40,
+        width: buttonSize,
+        height: buttonSize,
         decoration: BoxDecoration(
           color: Colors.red,
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(buttonSize / 2),
         ),
         child: IconButton(
           icon: const Icon(
