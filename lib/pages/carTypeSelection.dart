@@ -193,30 +193,6 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
     );
   }
 
-  // Widget _buildArrowBackButton(BuildContext context) {
-  //   return Positioned(
-  //     top: 40,
-  //     left: 20,
-  //     child: Container(
-  //       width: 40,
-  //       height: 40,
-  //       decoration: BoxDecoration(
-  //         color: Colors.red,
-  //         borderRadius: BorderRadius.circular(20.0),
-  //       ),
-  //       child: IconButton(
-  //         icon: const Icon(
-  //           Icons.arrow_back,
-  //           color: Colors.white,
-  //         ),
-  //         onPressed: () {
-  //           Navigator.pop(context);
-  //         },
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Widget _buildArrowBackButton(BuildContext context) {
     double buttonSize = MediaQuery.of(context).size.width * 0.1;
 
