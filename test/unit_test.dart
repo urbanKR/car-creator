@@ -37,8 +37,8 @@ void main() {
     String colorString_3 = SvgClass.colorToHex(const Color(0xFFA3E229));
 
     expect(colorString_1, equals('#020202'));
-    expect(colorString_2, equals('#8CCCB5'));
-    expect(colorString_3, equals('#A3E229'));
+    expect(colorString_2, equals('#8cccb5'));
+    expect(colorString_3, equals('#a3e229'));
   });
 
   test('correctness of SvgClass loadSvgString method', () {
