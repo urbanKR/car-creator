@@ -195,7 +195,7 @@ class SoundSelectionState extends State<SoundSelection> {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return Align(
+    return const Align(
       alignment: Alignment.center,
       child: FractionalTranslation(
         translation: Offset(0.0, -0.32),
@@ -257,11 +257,23 @@ class SoundSelectionState extends State<SoundSelection> {
           onPressed: selectedButtonIndex != -1
               ? () {
             ourCar.soundId = selectedButtonIndex;
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
                     CarColorSelection(ourCar: ourCar),
+                transitionsBuilder: (context, animation, secondaryAnimation,
+                    child) {
+                  const begin = Offset(1.0, 0.0);
+                  const end = Offset.zero;
+                  const curve = Curves.ease;
+                  var tween = Tween(begin: begin, end: end).chain(
+                      CurveTween(curve: curve));
+                  var offsetAnimation = animation.drive(tween);
+                  return SlideTransition(
+                    position: offsetAnimation,
+                    child: child,
+                  );
+                },
               ),
             );
           }

@@ -30,9 +30,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_svg: 2.0.9 # Use the latest version available
+  flutter_svg: ^2.0.10+1 # Use the latest version available
   audioplayers: 5.2.1
-  sqflite: 2.3.0
+  sqflite: ^2.3.2
   path_provider: ^2.0.7
   flutter_easyloading: 3.0.5
 
@@ -41,6 +41,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^1.1.2
   path: ^1.8.3
+  firebase_core: ^2.27.0
+  firebase_auth: ^4.17.8
 
 dev_dependencies:
   flutter_test:
@@ -52,7 +54,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.2
   test: ^1.24.9
 
 # For information on the generic Dart part of this file, see the

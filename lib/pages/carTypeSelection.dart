@@ -229,14 +229,27 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
         child: ElevatedButton(
           onPressed: selectedButtonIndex != -1
               ? () {
-                  Car ourCar = Car(type: carImages[selectedButtonIndex]);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SoundSelection(ourCar: ourCar),
-                    ),
+            Car ourCar = Car(type: carImages[selectedButtonIndex]);
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    SoundSelection(ourCar: ourCar),
+                transitionsBuilder: (context, animation, secondaryAnimation,
+                    child) {
+                  const begin = Offset(1.0, 0.0);
+                  const end = Offset.zero;
+                  const curve = Curves.ease;
+                  var tween = Tween(begin: begin, end: end).chain(
+                      CurveTween(curve: curve));
+                  var offsetAnimation = animation.drive(tween);
+                  return SlideTransition(
+                    position: offsetAnimation,
+                    child: child,
                   );
-                }
+                },
+              ),
+            );
+          }
               : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red,

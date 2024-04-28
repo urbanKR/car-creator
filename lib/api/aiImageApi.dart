@@ -51,11 +51,20 @@ Future<dynamic> convertTextToImage(
     try {
       EasyLoading.showSuccess('Car Generated');
       imageData = (response.bodyBytes);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              FinalRealisticCarPreview(ourCar: car, image: imageData),
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => FinalRealisticCarPreview(ourCar: car, image: imageData),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(1.0, 0.0);
+            const end = Offset.zero;
+            const curve = Curves.ease;
+            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            var offsetAnimation = animation.drive(tween);
+            return SlideTransition(
+              position: offsetAnimation,
+              child: child,
+            );
+          },
         ),
       );
       return response.bodyBytes;

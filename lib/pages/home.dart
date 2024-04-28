@@ -1,9 +1,22 @@
 import 'package:carcreator/pages/collection.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carcreator/pages/carTypeSelection.dart';
 
+import '../auth.dart';
+
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+
+  final User? user = Auth().currentUser;
+
+  Future<void> signOut() async {
+    await Auth().signOut();
+  }
+
+  Widget _signOutButton() {
+    return ElevatedButton(onPressed: signOut, child: const Text('Sign Out'));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,10 +142,20 @@ class HomePage extends StatelessWidget {
               child: ElevatedButton(
                 key: const Key('create_a_car_button'),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CarTypeSelection(),
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) => const CarTypeSelection(),
+                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                        const begin = Offset(1.0, 0.0);
+                        const end = Offset.zero;
+                        const curve = Curves.ease;
+                        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                        var offsetAnimation = animation.drive(tween);
+                        return SlideTransition(
+                          position: offsetAnimation,
+                          child: child,
+                        );
+                      },
                     ),
                   );
                 },
@@ -158,13 +181,29 @@ class HomePage extends StatelessWidget {
               child: ElevatedButton(
                 key: const Key('collection_button'),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Collection(),
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) => const Collection(),
+                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                        const begin = Offset(1.0, 0.0);
+                        const end = Offset.zero;
+                        const curve = Curves.ease;
+                        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                        var offsetAnimation = animation.drive(tween);
+                        return SlideTransition(
+                          position: offsetAnimation,
+                          child: child,
+                        );
+                      },
                     ),
                   );
-                },
+                  },
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const Collection(),
+                  //   ),
+                  // );
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.all(20.0),
                   backgroundColor: Colors.red,
@@ -178,6 +217,10 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 20,
+            ),
+            _signOutButton(),
           ],
         ),
       ),

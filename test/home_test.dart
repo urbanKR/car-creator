@@ -4,7 +4,7 @@ import 'package:carcreator/pages/home.dart';
 
 void main() {
   testWidgets('HomePage widget test', (WidgetTester tester) async {
-    await tester.pumpWidget(const MaterialApp(
+    await tester.pumpWidget(MaterialApp(
       home: HomePage(),
     ));
 
