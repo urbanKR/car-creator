@@ -1,9 +1,10 @@
-import 'package:carcreator/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:carcreator/pages/grillColorSelection.dart';
-import 'package:carcreator/models/Car.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:carcreator/models/svg_class.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart' as picker;
+import 'package:flutter_svg/svg.dart';
+
+import '../models/Car.dart';
+import '../models/svg_class.dart';
+import 'grillColorSelection.dart';
 
 class GlassColorSelection extends StatefulWidget {
   final Car ourCar;
@@ -72,9 +73,31 @@ class GlassColorSelectionState extends State<GlassColorSelection> {
                   const SizedBox(
                     height: 30,
                   ),
-                  ColorPicker(onColorSelected: (Color selected) {
-                    loadSvg(previousColor, selected);
-                  }),
+                  GestureDetector(
+                    onTap: () {
+                      _showColorPickerDialog(context);
+                    },
+                    child: Container(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.8,
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Choose Color',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -133,21 +156,21 @@ class GlassColorSelectionState extends State<GlassColorSelection> {
         child: Column(
           children: List.generate(
             4,
-            (i) => Row(
+                (i) => Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
                 15,
-                (j) => Container(
+                    (j) => Container(
                   width: MediaQuery.of(context).size.width / 15,
                   height: 25,
                   decoration: BoxDecoration(
                     color: (i % 2 == 0)
                         ? (j % 2 == 0)
-                            ? Colors.black
-                            : Colors.white
+                        ? Colors.black
+                        : Colors.white
                         : (j % 2 == 0)
-                            ? Colors.white
-                            : Colors.black,
+                        ? Colors.white
+                        : Colors.black,
                   ),
                 ),
               ),
@@ -243,68 +266,45 @@ class GlassColorSelectionState extends State<GlassColorSelection> {
       ),
     );
   }
-}
 
-class ColorPicker extends StatefulWidget {
-  final Function(Color) onColorSelected;
-
-  const ColorPicker({required this.onColorSelected, Key? key})
-      : super(key: key);
-
-  @override
-  State<ColorPicker> createState() => _ColorPickerState();
-}
-
-class _ColorPickerState extends State<ColorPicker> {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        for (var i in carColors.entries)
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                carColors.updateAll((key, value) {
-                  if (key != i.key) {
-                    return value = false;
-                  }
-                  widget.onColorSelected(i.key);
-                  return value = true;
+  void _showColorPickerDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        Color currentColor = ourCar.glassColor; // Initialize current color with the current glass color
+        return AlertDialog(
+          title: const Text('Pick a color'),
+          content: SingleChildScrollView(
+            child: picker.ColorPicker(
+              pickerColor: currentColor,
+              onColorChanged: (Color color) {
+                setState(() {
+                  currentColor = color;
                 });
-              });
-            },
-            child: ColorPickerItem(color: i.key, isChecked: i.value),
+              },
+              enableAlpha: false,
+              showLabel: false,
+              pickerAreaHeightPercent: 0.8,
+            ),
           ),
-      ],
-    );
-  }
-}
-
-class ColorPickerItem extends StatelessWidget {
-  const ColorPickerItem(
-      {super.key, required this.color, required this.isChecked});
-
-  final Color color;
-  final bool isChecked;
-
-  @override
-  Widget build(BuildContext context) {
-    double radius = MediaQuery.of(context).size.width * 0.08;
-
-    return CircleAvatar(
-      backgroundColor: Colors.black,
-      radius: radius * 1.1,
-      child: CircleAvatar(
-        backgroundColor: color,
-        radius: radius,
-        child: isChecked
-            ? Icon(
-                Icons.check,
-                size: 1.5 * radius,
-              )
-            : null,
-      ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Confirm and pass the selected custom color
+                loadSvg(previousColor, currentColor);
+                Navigator.of(context).pop();
+              },
+              child: const Text('Done'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
