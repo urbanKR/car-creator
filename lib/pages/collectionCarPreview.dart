@@ -32,7 +32,7 @@ class _CollectionCarPreviewState extends State<CollectionCarPreview> {
   Future<void> deleteCar() async {
     await CarsDatabase.instance.delete(carArray[widget.index].id!);
     await refreshCars(); // Refresh the car data
-    setState(() {}); // Trigger a rebuild of the widget tree
+    setState(() {});
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -87,21 +87,24 @@ class _CollectionCarPreviewState extends State<CollectionCarPreview> {
                                 const SizedBox(
                                   height: 50,
                                 ),
-                                //Car svg
                                 SizedBox(
                                   width: 260,
                                   height: 260,
                                   child: Container(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: SvgPicture.string(
+                                    child: carArray[widget.index].realisticCar != null
+                                        ? Image.file(
+                                      carArray[widget.index].realisticCar!,
+                                      width: MediaQuery.of(context).size.width * 0.35,
+                                      height: MediaQuery.of(context).size.width * 0.35,
+                                      fit: BoxFit.cover,
+                                    )
+                                        : SvgPicture.string(
                                       svgCodeArray.isNotEmpty
                                           ? svgCodeArray[widget.index]
                                           : '',
-                                      width: MediaQuery.of(context).size.width *
-                                          0.35,
-                                      height:
-                                          MediaQuery.of(context).size.width *
-                                              0.35,
+                                      width: MediaQuery.of(context).size.width * 0.35,
+                                      height: MediaQuery.of(context).size.width * 0.35,
                                     ),
                                   ),
                                 ),
@@ -111,34 +114,8 @@ class _CollectionCarPreviewState extends State<CollectionCarPreview> {
                                 //btn
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    // ElevatedButton(
-                                    //   onPressed: () {
-                                    //     Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //         const CollectionRealisticCarPreview(),
-                                    //       ),
-                                    //     );
-                                    //   },
-                                    //   style: ElevatedButton.styleFrom(
-                                    //     padding: const EdgeInsets.all(20.0),
-                                    //     backgroundColor: Colors.red,
-                                    //     shape: RoundedRectangleBorder(
-                                    //       borderRadius: BorderRadius.circular(40.0),
-                                    //     ),
-                                    //   ),
-                                    //   child: const Text(
-                                    //     'Show concept',
-                                    //     style: TextStyle(
-                                    //       fontSize: 20,
-                                    //       color: Colors.white,
-                                    //       fontWeight: FontWeight.bold,
-                                    //     ),
-                                    //   ),
-                                    // ),
                                     ElevatedButton(
                                       onPressed: deleteCar,
                                       style: ElevatedButton.styleFrom(
@@ -146,7 +123,7 @@ class _CollectionCarPreviewState extends State<CollectionCarPreview> {
                                         backgroundColor: Colors.blue,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(40.0),
+                                          BorderRadius.circular(40.0),
                                         ),
                                       ),
                                       child: const Text(
@@ -197,21 +174,21 @@ class _CollectionCarPreviewState extends State<CollectionCarPreview> {
         child: Column(
           children: List.generate(
             4,
-            (i) => Row(
+                (i) => Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
                 15,
-                (j) => Container(
+                    (j) => Container(
                   width: MediaQuery.of(context).size.width / 15,
                   height: 25,
                   decoration: BoxDecoration(
                     color: (i % 2 == 0)
                         ? (j % 2 == 0)
-                            ? Colors.black
-                            : Colors.white
+                        ? Colors.black
+                        : Colors.white
                         : (j % 2 == 0)
-                            ? Colors.white
-                            : Colors.black,
+                        ? Colors.white
+                        : Colors.black,
                   ),
                 ),
               ),

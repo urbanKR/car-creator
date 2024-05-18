@@ -40,7 +40,6 @@ class _CollectionState extends State<Collection> {
       future: refreshCars(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          // Asynchronous operations completed, now you can build your widget
           return Scaffold(
             body: Stack(
               children: [
@@ -55,96 +54,84 @@ class _CollectionState extends State<Collection> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: FractionalTranslation(
-                            translation: const Offset(0.0, 0.01),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              //Collection
-                              children: [
-                                const SizedBox(height: 10),
-                                Text(
-                                  'Collection',
-                                  style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.width * 0.15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(height: MediaQuery.of(context).size.width * 0.05),
-                                //Collection items
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.6,
-                                  child: carArray.isEmpty
-                                      ? Center(
-                                    child: Text(
-                                      'Collection is empty',
-                                      style: TextStyle(
-                                        fontSize: MediaQuery.of(context).size.width * 0.1,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  )
-                                      : ListView.builder(
-                                    itemCount: carArray.length,
-                                    itemBuilder: (context, index) {
-                                      return InkWell(
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                            PageRouteBuilder(
-                                              pageBuilder: (context, animation, secondaryAnimation) => CollectionCarPreview(index: index),
-                                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                                const begin = Offset(1.0, 0.0);
-                                                const end = Offset.zero;
-                                                const curve = Curves.ease;
-                                                var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-                                                var offsetAnimation = animation.drive(tween);
-                                                return SlideTransition(
-                                                  position: offsetAnimation,
-                                                  child: child,
-                                                );
-                                              },
-                                            ),
-                                          );
-                                        },
-                                        child: Container(
-                                          margin: const EdgeInsets.symmetric(horizontal: 8),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              SvgPicture.string(
-                                                svgCodeArray[index],
-                                                width: MediaQuery.of(context).size.width * 0.35,
-                                                height: MediaQuery.of(context).size.width * 0.35,
-                                              ),
-                                              SizedBox(width: MediaQuery.of(context).size.width * 0.2),
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  FittedBox(
-                                                    fit: BoxFit.scaleDown,
-                                                    child: Text(
-                                                      carArray[index].name ?? 'unnamed',
-                                                      style: TextStyle(
-                                                        fontSize: MediaQuery.of(context).size.width * 0.1,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                SizedBox(height: MediaQuery.of(context).size.width * 0.05),
-                              ],
-                            ),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Collection',
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width * 0.15,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
+                        SizedBox(height: MediaQuery.of(context).size.width * 0.05),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.6,
+                          child: carArray.isEmpty
+                              ? Center(
+                            child: Text(
+                              'Collection is empty',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).size.width * 0.1,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                              : ListView.builder(
+                            itemCount: carArray.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation, secondaryAnimation) =>
+                                          CollectionCarPreview(index: index),
+                                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                        const begin = Offset(1.0, 0.0);
+                                        const end = Offset.zero;
+                                        const curve = Curves.ease;
+                                        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                        var offsetAnimation = animation.drive(tween);
+                                        return SlideTransition(
+                                          position: offsetAnimation,
+                                          child: child,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      SvgPicture.string(
+                                        svgCodeArray[index],
+                                        width: MediaQuery.of(context).size.width * 0.3,
+                                        height: MediaQuery.of(context).size.width * 0.3,
+                                      ),
+                                      SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              carArray[index].name ?? 'unnamed',
+                                              style: TextStyle(
+                                                fontSize: MediaQuery.of(context).size.width * 0.08,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(height: MediaQuery.of(context).size.width * 0.05),
                       ],
                     ),
                   ),
@@ -153,7 +140,6 @@ class _CollectionState extends State<Collection> {
             ),
           );
         } else {
-          // Asynchronous operations still in progress, you can show a loading indicator
           return Scaffold(
             body: Center(
               child: CircularProgressIndicator(),

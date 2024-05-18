@@ -1,7 +1,7 @@
-import "dart:ui";
-import "dart:io";
+import 'dart:ui';
+import 'dart:io';
 import 'package:carcreator/models/svg_class.dart';
-import "package:flutter/cupertino.dart";
+import 'package:flutter/cupertino.dart';
 
 const String tableCars = 'cars';
 
@@ -89,22 +89,24 @@ class Car {
       type: json[CarFields.type] as String,
       soundId: json[CarFields.soundId] as int,
       bodyColor:
-          Color(int.parse(json[CarFields.bodyColor] as String, radix: 16)),
+      Color(int.parse(json[CarFields.bodyColor] as String, radix: 16)),
       glassColor:
-          Color(int.parse(json[CarFields.glassColor] as String, radix: 16)),
+      Color(int.parse(json[CarFields.glassColor] as String, radix: 16)),
       grillColor:
-          Color(int.parse(json[CarFields.grillColor] as String, radix: 16)),
+      Color(int.parse(json[CarFields.grillColor] as String, radix: 16)),
       name: json[CarFields.name] as String,
-      realisticCar: File(json[CarFields.realisticCar] as String));
+      realisticCar: json[CarFields.realisticCar] != null
+          ? File(json[CarFields.realisticCar] as String)
+          : null);
 
   Map<String, Object?> toJson() => {
-        CarFields.id: id,
-        CarFields.type: type,
-        CarFields.soundId: soundId,
-        CarFields.bodyColor: bodyColor.value.toRadixString(16),
-        CarFields.glassColor: glassColor.value.toRadixString(16),
-        CarFields.grillColor: grillColor.value.toRadixString(16),
-        CarFields.name: name,
-        CarFields.realisticCar: realisticCar?.path,
-      };
+    CarFields.id: id,
+    CarFields.type: type,
+    CarFields.soundId: soundId,
+    CarFields.bodyColor: bodyColor.value.toRadixString(16),
+    CarFields.glassColor: glassColor.value.toRadixString(16),
+    CarFields.grillColor: grillColor.value.toRadixString(16),
+    CarFields.name: name,
+    CarFields.realisticCar: realisticCar?.path,
+  };
 }

@@ -26,7 +26,7 @@ class FinalRealisticCarPreviewState extends State<FinalRealisticCarPreview> {
   void initState() {
     super.initState();
     _textFieldController = TextEditingController();
-    ourCar = widget.ourCar; // Initialize ourCar with the passed Car object
+    ourCar = widget.ourCar;
   }
 
   @override
