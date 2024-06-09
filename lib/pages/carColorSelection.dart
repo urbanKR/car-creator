@@ -39,10 +39,7 @@ class CarColorSelectionState extends State<CarColorSelection> {
 
   @override
   Widget build(BuildContext context) {
-    double buttonSize = MediaQuery
-        .of(context)
-        .size
-        .width * 0.1;
+    double buttonSize = MediaQuery.of(context).size.width * 0.1;
 
     return Scaffold(
       body: Stack(
@@ -58,49 +55,35 @@ class CarColorSelectionState extends State<CarColorSelection> {
               translation: const Offset(0.0, 0.01),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                //Car Preview Items
                 children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   SizedBox(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.7,
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.7,
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    height: MediaQuery.of(context).size.width * 0.7,
                     child: Container(
                       padding: const EdgeInsets.all(8.0),
                       child: SvgPicture.string(
-                        svgCode, // Use the loaded SVG string here
+                        svgCode,
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  const SizedBox(height: 30),
                   GestureDetector(
                     onTap: () {
                       _showColorPickerDialog(context);
                     },
                     child: Container(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.8,
+                      width: MediaQuery.of(context).size.width * 0.8,
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           'Choose Color',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             color: Colors.black,
                           ),
                         ),
@@ -117,10 +100,7 @@ class CarColorSelectionState extends State<CarColorSelection> {
         alignment: Alignment.bottomCenter,
         child: Container(
           margin: const EdgeInsets.only(bottom: 110.0, left: 20),
-          width: MediaQuery
-              .of(context)
-              .size
-              .width * 0.8,
+          width: MediaQuery.of(context).size.width * 0.8,
           child: ElevatedButton(
             onPressed: () {
               Navigator.of(context).push(
@@ -145,11 +125,12 @@ class CarColorSelectionState extends State<CarColorSelection> {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
             ),
             child: const Text(
               'Next',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 20,
                 color: Colors.black,
               ),
             ),
@@ -163,10 +144,7 @@ class CarColorSelectionState extends State<CarColorSelection> {
     return Positioned(
       bottom: 0,
       child: Container(
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
+        width: MediaQuery.of(context).size.width,
         height: 100,
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -174,30 +152,25 @@ class CarColorSelectionState extends State<CarColorSelection> {
         child: Column(
           children: List.generate(
             4,
-                (i) =>
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: List.generate(
-                    15,
-                        (j) =>
-                        Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width / 15,
-                          height: 25,
-                          decoration: BoxDecoration(
-                            color: (i % 2 == 0)
-                                ? (j % 2 == 0)
-                                ? Colors.black
-                                : Colors.white
-                                : (j % 2 == 0)
-                                ? Colors.white
-                                : Colors.black,
-                          ),
-                        ),
+                (i) => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(
+                15,
+                    (j) => Container(
+                  width: MediaQuery.of(context).size.width / 15,
+                  height: 25,
+                  decoration: BoxDecoration(
+                    color: (i % 2 == 0)
+                        ? (j % 2 == 0)
+                        ? Colors.black
+                        : Colors.white
+                        : (j % 2 == 0)
+                        ? Colors.white
+                        : Colors.black,
                   ),
                 ),
+              ),
+            ),
           ),
         ),
       ),
@@ -205,10 +178,7 @@ class CarColorSelectionState extends State<CarColorSelection> {
   }
 
   Widget _buildLeftCircleWidget(BuildContext context) {
-    double circleSize = MediaQuery
-        .of(context)
-        .size
-        .width * 0.65;
+    double circleSize = MediaQuery.of(context).size.width * 0.65;
 
     return Positioned(
       top: -circleSize * 0.5,
@@ -225,10 +195,7 @@ class CarColorSelectionState extends State<CarColorSelection> {
   }
 
   Widget _buildRightCircleWidget(BuildContext context) {
-    double circleSize = MediaQuery
-        .of(context)
-        .size
-        .width * 0.65;
+    double circleSize = MediaQuery.of(context).size.width * 0.65;
 
     return Positioned(
       top: -10,
@@ -245,23 +212,24 @@ class CarColorSelectionState extends State<CarColorSelection> {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return const Align(
+    double fontSize = MediaQuery.of(context).size.width * 0.07;
+    return Align(
       alignment: Alignment.center,
       child: FractionalTranslation(
-        translation: Offset(0.0, -0.32),
+        translation: const Offset(0.0, -0.32),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Choose the color',
               style: TextStyle(
-                fontSize: 45,
+                fontSize: fontSize,
               ),
             ),
             Text(
               'of your car',
               style: TextStyle(
-                fontSize: 45,
+                fontSize: fontSize,
               ),
             ),
           ],
@@ -272,14 +240,8 @@ class CarColorSelectionState extends State<CarColorSelection> {
 
   Widget _buildArrowBackButton(BuildContext context, double buttonSize) {
     return Positioned(
-      top: MediaQuery
-          .of(context)
-          .size
-          .height * 0.05,
-      left: MediaQuery
-          .of(context)
-          .size
-          .width * 0.05,
+      top: MediaQuery.of(context).size.height * 0.05,
+      left: MediaQuery.of(context).size.width * 0.05,
       child: Container(
         width: buttonSize,
         height: buttonSize,
@@ -304,7 +266,7 @@ class CarColorSelectionState extends State<CarColorSelection> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        Color currentColor = ourCar.glassColor; // Initialize current color with the current glass color
+        Color currentColor = ourCar.bodyColor;
         return AlertDialog(
           title: const Text('Pick a color'),
           content: SingleChildScrollView(

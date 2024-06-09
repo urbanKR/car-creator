@@ -42,7 +42,7 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    double buttonSize = MediaQuery.of(context).size.width * 0.1;
 
     return Scaffold(
       body: Stack(
@@ -51,7 +51,7 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
           _buildLeftCircleWidget(context),
           _buildRightCircleWidget(context),
           _buildHeader(context),
-          _buildArrowBackButton(context),
+          _buildArrowBackButton(context, buttonSize),
           Align(
             alignment: Alignment.center,
             child: FractionalTranslation(
@@ -62,8 +62,8 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
                 children: [
                   const SizedBox(height: 10),
                   SizedBox(
-                    width: screenWidth * 0.7,
-                    height: screenWidth * 0.7,
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    height: MediaQuery.of(context).size.width * 0.7,
                     child: Container(
                       padding: const EdgeInsets.all(8.0),
                       child: SvgPicture.string(
@@ -83,11 +83,11 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           'Choose Color',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             color: Colors.black,
                           ),
                         ),
@@ -109,12 +109,15 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
             onPressed: () {
               Navigator.of(context).push(
                 PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) => FinalCarPreview(ourCar: ourCar),
-                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      FinalCarPreview(ourCar: ourCar),
+                  transitionsBuilder: (context, animation, secondaryAnimation,
+                      child) {
                     const begin = Offset(1.0, 0.0);
                     const end = Offset.zero;
                     const curve = Curves.ease;
-                    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                    var tween = Tween(begin: begin, end: end).chain(
+                        CurveTween(curve: curve));
                     var offsetAnimation = animation.drive(tween);
                     return SlideTransition(
                       position: offsetAnimation,
@@ -126,11 +129,12 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
             ),
             child: const Text(
               'Next',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 20,
                 color: Colors.black,
               ),
             ),
@@ -212,23 +216,24 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return const Align(
+    double fontSize = MediaQuery.of(context).size.width * 0.07;
+    return Align(
       alignment: Alignment.center,
       child: FractionalTranslation(
-        translation: Offset(0.0, -0.32),
+        translation: const Offset(0.0, -0.32),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Choose the',
               style: TextStyle(
-                fontSize: 45,
+                fontSize: fontSize,
               ),
             ),
             Text(
               'grill color',
               style: TextStyle(
-                fontSize: 45,
+                fontSize: fontSize,
               ),
             ),
           ],
@@ -237,9 +242,7 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
     );
   }
 
-  Widget _buildArrowBackButton(BuildContext context) {
-    double buttonSize = MediaQuery.of(context).size.width * 0.1;
-
+  Widget _buildArrowBackButton(BuildContext context, double buttonSize) {
     return Positioned(
       top: MediaQuery.of(context).size.height * 0.05,
       left: MediaQuery.of(context).size.width * 0.05,
@@ -267,7 +270,7 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        Color currentColor = ourCar.grillColor; // Initialize current color with the current grill color
+        Color currentColor = ourCar.grillColor;
         return AlertDialog(
           title: const Text('Pick a color'),
           content: SingleChildScrollView(
@@ -292,7 +295,6 @@ class GrillColorSelectionState extends State<GrillColorSelection> {
             ),
             TextButton(
               onPressed: () {
-                // Confirm and pass the selected custom color
                 loadSvg(previousColor, currentColor);
                 Navigator.of(context).pop();
               },

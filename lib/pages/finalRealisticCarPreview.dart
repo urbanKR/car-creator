@@ -1,10 +1,8 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:carcreator/models/Car.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-
 import '../database_helper.dart';
 import 'home.dart';
 
@@ -36,13 +34,10 @@ class FinalRealisticCarPreviewState extends State<FinalRealisticCarPreview> {
   }
 
   Future<File> convertUint8ListToFile(Uint8List uint8List, String fileName) async {
-    // Create a temporary directory
     Directory tempDir = await getTemporaryDirectory();
 
-    // Create a temporary file with a unique name
     File tempFile = File('${tempDir.path}/$fileName');
 
-    // Write the bytes to the file
     await tempFile.writeAsBytes(uint8List);
 
     return tempFile;
@@ -79,92 +74,77 @@ class FinalRealisticCarPreviewState extends State<FinalRealisticCarPreview> {
           _buildRightCircleWidget(context),
           Align(
             alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text(
-                  'Real Concept',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Text(
-                  'of your car',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  controller: _textFieldController,
-                  decoration: InputDecoration(
-                    hintText: 'Enter name',
-                    alignLabelWithHint: true,
-                    contentPadding: EdgeInsets.symmetric(horizontal: (screenWidth / 2.7)),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  width: screenWidth * 0.80,
-                  height: screenWidth * 0.80,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    child: Image.memory(
-                      widget.image,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                // Add the input text field
-                // TextField(
-                //   controller: _textFieldController,
-                //   decoration: const InputDecoration(
-                //     hintText: 'Enter name',
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 20,
-                // ),
-                // Add the button
-                ElevatedButton(
-                  onPressed: () {
-                    _onSubmitButtonPressed(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(20.0),
-                    backgroundColor: Colors.red,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                  ),
-                  child: const Text(
-                    'Save car',
+            child: FractionalTranslation(
+              translation: const Offset(0.0, 0.01),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Real Concept',
                     style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
+                      fontSize: 40,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-              ],
+                  const Text(
+                    'of your car',
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  TextField(
+                    controller: _textFieldController,
+                    decoration: InputDecoration(
+                      hintText: 'Enter name',
+                      alignLabelWithHint: true,
+                      contentPadding: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    width: screenWidth * 0.8,
+                    height: screenWidth * 0.8,
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: Image.memory(
+                        widget.image,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      _onSubmitButtonPressed(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.all(10.0),
+                      backgroundColor: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                    ),
+                    child: const Text(
+                      'Save car',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
+          _buildArrowBackButton(context),
         ],
       ),
     );
@@ -239,6 +219,32 @@ class FinalRealisticCarPreviewState extends State<FinalRealisticCarPreview> {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.red.withOpacity(0.4),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildArrowBackButton(BuildContext context) {
+    double buttonSize = MediaQuery.of(context).size.width * 0.1;
+
+    return Positioned(
+      top: MediaQuery.of(context).size.height * 0.05,
+      left: MediaQuery.of(context).size.width * 0.05,
+      child: Container(
+        width: buttonSize,
+        height: buttonSize,
+        decoration: BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.circular(buttonSize / 2),
+        ),
+        child: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
     );

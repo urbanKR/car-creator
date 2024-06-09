@@ -40,7 +40,7 @@ class GlassColorSelectionState extends State<GlassColorSelection> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    double buttonSize = MediaQuery.of(context).size.width * 0.1;
 
     return Scaffold(
       body: Stack(
@@ -49,7 +49,7 @@ class GlassColorSelectionState extends State<GlassColorSelection> {
           _buildLeftCircleWidget(context),
           _buildRightCircleWidget(context),
           _buildHeader(context),
-          _buildArrowBackButton(context),
+          _buildArrowBackButton(context, buttonSize),
           Align(
             alignment: Alignment.center,
             child: FractionalTranslation(
@@ -57,12 +57,10 @@ class GlassColorSelectionState extends State<GlassColorSelection> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   SizedBox(
-                    width: screenWidth * 0.7,
-                    height: screenWidth * 0.7,
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    height: MediaQuery.of(context).size.width * 0.7,
                     child: Container(
                       padding: const EdgeInsets.all(8.0),
                       child: SvgPicture.string(
@@ -70,28 +68,23 @@ class GlassColorSelectionState extends State<GlassColorSelection> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  const SizedBox(height: 30),
                   GestureDetector(
                     onTap: () {
                       _showColorPickerDialog(context);
                     },
                     child: Container(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.8,
+                      width: MediaQuery.of(context).size.width * 0.8,
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           'Choose Color',
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             color: Colors.black,
                           ),
                         ),
@@ -113,12 +106,15 @@ class GlassColorSelectionState extends State<GlassColorSelection> {
             onPressed: () {
               Navigator.of(context).push(
                 PageRouteBuilder(
-                  pageBuilder: (context, animation, secondaryAnimation) => GrillColorSelection(ourCar: ourCar),
-                  transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      GrillColorSelection(ourCar: ourCar),
+                  transitionsBuilder: (context, animation, secondaryAnimation,
+                      child) {
                     const begin = Offset(1.0, 0.0);
                     const end = Offset.zero;
                     const curve = Curves.ease;
-                    var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                    var tween = Tween(begin: begin, end: end).chain(
+                        CurveTween(curve: curve));
                     var offsetAnimation = animation.drive(tween);
                     return SlideTransition(
                       position: offsetAnimation,
@@ -130,11 +126,12 @@ class GlassColorSelectionState extends State<GlassColorSelection> {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
             ),
             child: const Text(
               'Next',
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 20,
                 color: Colors.black,
               ),
             ),
@@ -216,23 +213,24 @@ class GlassColorSelectionState extends State<GlassColorSelection> {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return const Align(
+    double fontSize = MediaQuery.of(context).size.width * 0.07;
+    return Align(
       alignment: Alignment.center,
       child: FractionalTranslation(
-        translation: Offset(0.0, -0.32),
+        translation: const Offset(0.0, -0.32),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Choose the',
               style: TextStyle(
-                fontSize: 45,
+                fontSize: fontSize,
               ),
             ),
             Text(
               'glass color',
               style: TextStyle(
-                fontSize: 45,
+                fontSize: fontSize,
               ),
             ),
           ],
@@ -241,9 +239,7 @@ class GlassColorSelectionState extends State<GlassColorSelection> {
     );
   }
 
-  Widget _buildArrowBackButton(BuildContext context) {
-    double buttonSize = MediaQuery.of(context).size.width * 0.1;
-
+  Widget _buildArrowBackButton(BuildContext context, double buttonSize) {
     return Positioned(
       top: MediaQuery.of(context).size.height * 0.05,
       left: MediaQuery.of(context).size.width * 0.05,

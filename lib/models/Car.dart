@@ -85,19 +85,17 @@ class Car {
   }
 
   static Car fromJson(Map<String, Object?> json) => Car(
-      id: json[CarFields.id] as int?,
-      type: json[CarFields.type] as String,
-      soundId: json[CarFields.soundId] as int,
-      bodyColor:
-      Color(int.parse(json[CarFields.bodyColor] as String, radix: 16)),
-      glassColor:
-      Color(int.parse(json[CarFields.glassColor] as String, radix: 16)),
-      grillColor:
-      Color(int.parse(json[CarFields.grillColor] as String, radix: 16)),
-      name: json[CarFields.name] as String,
-      realisticCar: json[CarFields.realisticCar] != null
-          ? File(json[CarFields.realisticCar] as String)
-          : null);
+    id: json[CarFields.id] as int?,
+    type: json[CarFields.type] as String,
+    soundId: json[CarFields.soundId] as int?,
+    bodyColor: Color(int.parse(json[CarFields.bodyColor] as String, radix: 16)),
+    glassColor: Color(int.parse(json[CarFields.glassColor] as String, radix: 16)),
+    grillColor: Color(int.parse(json[CarFields.grillColor] as String, radix: 16)),
+    name: json[CarFields.name] as String?,
+    realisticCar: json[CarFields.realisticCar] != null
+        ? File(json[CarFields.realisticCar] as String)
+        : null,
+  );
 
   Map<String, Object?> toJson() => {
     CarFields.id: id,

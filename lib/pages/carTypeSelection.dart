@@ -21,7 +21,7 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
   int selectedButtonIndex = -1;
 
   double calculateButtonSize(BuildContext context) {
-    return MediaQuery.of(context).size.width / 2 - 12.0;
+    return MediaQuery.of(context).size.width / 2 - 11.0;
   }
 
   double calculateChessboardCellSize(BuildContext context) {
@@ -34,8 +34,9 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
 
   @override
   Widget build(BuildContext context) {
-    Color selectedColor = Color.fromARGB(255, 184, 6, 6);
+    Color selectedColor = const Color.fromARGB(255, 184, 6, 6);
     Color unselectedColor = Colors.red;
+    double fontSize = MediaQuery.of(context).size.width * 0.07;
 
     return Scaffold(
       body: Stack(
@@ -44,12 +45,12 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
           _buildChessboard(context),
           _buildLeftCircleWidget(context),
           _buildRightCircleWidget(context),
-          _buildHeader(context),
+          _buildHeader(context, fontSize),
           _buildArrowBackButton(context),
         ],
       ),
       floatingActionButton:
-          _buildNextButton(context, selectedButtonIndex, carImages),
+      _buildNextButton(context, selectedButtonIndex, carImages),
     );
   }
 
@@ -65,21 +66,21 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
         child: Column(
           children: List.generate(
             4,
-            (i) => Row(
+                (i) => Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
                 15,
-                (j) => Container(
+                    (j) => Container(
                   width: calculateChessboardCellSize(context),
                   height: 25,
                   decoration: BoxDecoration(
                     color: (i % 2 == 0)
                         ? (j % 2 == 0)
-                            ? Colors.black
-                            : Colors.white
+                        ? Colors.black
+                        : Colors.white
                         : (j % 2 == 0)
-                            ? Colors.white
-                            : Colors.black,
+                        ? Colors.white
+                        : Colors.black,
                   ),
                 ),
               ),
@@ -120,24 +121,24 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
-    return const Align(
+  Widget _buildHeader(BuildContext context, double fontSize) {
+    return Align(
       alignment: Alignment.center,
       child: FractionalTranslation(
-        translation: Offset(0.0, -0.32),
+        translation: const Offset(0.0, -0.32),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Choose the car',
               style: TextStyle(
-                fontSize: 45,
+                fontSize: fontSize,
               ),
             ),
             Text(
               'type',
               style: TextStyle(
-                fontSize: 45,
+                fontSize: fontSize,
               ),
             ),
           ],
@@ -148,8 +149,10 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
 
   Widget _buildCarButtons(
       BuildContext context, Color selectedColor, Color unselectedColor) {
+    double buttonSize = calculateButtonSize(context);
+
     return Positioned(
-      bottom: MediaQuery.of(context).size.height * 0.22,
+      bottom: MediaQuery.of(context).size.height * 0.15,
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: 470,
@@ -162,14 +165,15 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
             crossAxisCount: 2,
             crossAxisSpacing: 8.0,
             mainAxisSpacing: 8.0,
+            childAspectRatio: 1.0,
           ),
-          itemCount: 4,
+          itemCount: carImages.length,
           itemBuilder: (BuildContext context, int index) {
             return InkWell(
               onTap: () {
                 setState(() {
                   selectedButtonIndex =
-                      selectedButtonIndex == index ? -1 : index;
+                  selectedButtonIndex == index ? -1 : index;
                 });
               },
               child: Container(
@@ -182,8 +186,8 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
                 ),
                 child: SvgPicture.asset(
                   carImages[index],
-                  width: 30,
-                  height: 30,
+                  width: buttonSize,
+                  height: buttonSize,
                 ),
               ),
             );
@@ -221,11 +225,14 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
 
   Widget _buildNextButton(
       BuildContext context, int selectedButtonIndex, List<String> carImages) {
+    double buttonWidth = MediaQuery.of(context).size.width * 0.8;
+    double buttonFontSize = MediaQuery.of(context).size.width * 0.06;
+
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
         margin: const EdgeInsets.only(bottom: 110.0, left: 20),
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: buttonWidth,
         child: ElevatedButton(
           onPressed: selectedButtonIndex != -1
               ? () {
@@ -234,13 +241,13 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
               PageRouteBuilder(
                 pageBuilder: (context, animation, secondaryAnimation) =>
                     SoundSelection(ourCar: ourCar),
-                transitionsBuilder: (context, animation, secondaryAnimation,
-                    child) {
+                transitionsBuilder: (context, animation,
+                    secondaryAnimation, child) {
                   const begin = Offset(1.0, 0.0);
                   const end = Offset.zero;
                   const curve = Curves.ease;
-                  var tween = Tween(begin: begin, end: end).chain(
-                      CurveTween(curve: curve));
+                  var tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: curve));
                   var offsetAnimation = animation.drive(tween);
                   return SlideTransition(
                     position: offsetAnimation,
@@ -253,11 +260,12 @@ class CarTypeSelectionState extends State<CarTypeSelection> {
               : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red,
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
           ),
-          child: const Text(
+          child: Text(
             'Next',
             style: TextStyle(
-              fontSize: 30,
+              fontSize: buttonFontSize,
               color: Colors.black,
             ),
           ),

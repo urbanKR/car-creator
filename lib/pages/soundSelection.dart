@@ -50,12 +50,13 @@ class SoundSelectionState extends State<SoundSelection> {
     Color selectedSpeakerColor = Colors.yellow;
     Color unselectedSpeakerColorEven = Colors.black;
     Color unselectedSpeakerColorOdd = Colors.white;
+    double fontSize = MediaQuery.of(context).size.width * 0.07;
 
     return Scaffold(
       body: Stack(
         children: [
           Positioned(
-            bottom: MediaQuery.of(context).size.height * 0.19,
+            bottom: MediaQuery.of(context).size.height * 0.15,
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: 470,
@@ -68,6 +69,7 @@ class SoundSelectionState extends State<SoundSelection> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 8.0,
                   mainAxisSpacing: 8.0,
+                  childAspectRatio: 1.0,
                 ),
                 itemCount: 4,
                 itemBuilder: (BuildContext context, int index) {
@@ -96,7 +98,7 @@ class SoundSelectionState extends State<SoundSelection> {
                       decoration: BoxDecoration(
                         color: selectedButtonIndex == index
                             ? selectedColor
-                            : index % 4 == 0 || index % 4 == 3
+                            : index % 2 == 0
                             ? unselectedColorEven
                             : unselectedColorOdd,
                         borderRadius: BorderRadius.circular(20.0),
@@ -106,7 +108,7 @@ class SoundSelectionState extends State<SoundSelection> {
                         size: 60,
                         color: selectedButtonIndex == index
                             ? selectedSpeakerColor
-                            : index % 4 == 0 || index % 4 == 3
+                            : index % 2 == 0
                             ? unselectedSpeakerColorEven
                             : unselectedSpeakerColorOdd,
                       ),
@@ -119,7 +121,7 @@ class SoundSelectionState extends State<SoundSelection> {
           _buildChessboard(context),
           _buildLeftCircleWidget(context),
           _buildRightCircleWidget(context),
-          _buildHeader(context),
+          _buildHeader(context, fontSize),
           _buildArrowBackButton(context),
         ],
       ),
@@ -194,24 +196,24 @@ class SoundSelectionState extends State<SoundSelection> {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
-    return const Align(
+  Widget _buildHeader(BuildContext context, double fontSize) {
+    return Align(
       alignment: Alignment.center,
       child: FractionalTranslation(
-        translation: Offset(0.0, -0.32),
+        translation: const Offset(0.0, -0.32),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               'Choose the',
               style: TextStyle(
-                fontSize: 45,
+                fontSize: fontSize,
               ),
             ),
             Text(
               'sound',
               style: TextStyle(
-                fontSize: 45,
+                fontSize: fontSize,
               ),
             ),
           ],
@@ -246,13 +248,15 @@ class SoundSelectionState extends State<SoundSelection> {
     );
   }
 
-
   Widget _buildNextButton(BuildContext context, int selectedButtonIndex) {
+    double buttonWidth = MediaQuery.of(context).size.width * 0.8;
+    double buttonFontSize = MediaQuery.of(context).size.width * 0.06;
+
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
         margin: const EdgeInsets.only(bottom: 110.0, left: 20),
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: buttonWidth,
         child: ElevatedButton(
           onPressed: selectedButtonIndex != -1
               ? () {
@@ -280,11 +284,12 @@ class SoundSelectionState extends State<SoundSelection> {
               : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red,
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
           ),
-          child: const Text(
+          child: Text(
             'Next',
             style: TextStyle(
-              fontSize: 30,
+              fontSize: buttonFontSize,
               color: Colors.black,
             ),
           ),

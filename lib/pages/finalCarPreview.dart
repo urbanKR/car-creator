@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:carcreator/api/aiImageApi.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,6 @@ class FinalCarPreview extends StatefulWidget {
 }
 
 class FinalCarPreviewState extends State<FinalCarPreview> {
-  //test prompt
   late String textPrompt;
   bool isLoading = false;
   String carName = "";
@@ -90,19 +88,9 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
     }
   }
 
-  final List<String> carArray = const [
-    //wrong size first??
-    // 'assets/graphics/Car1.svg',
-    'assets/graphics/Car2.svg',
-    'assets/graphics/Car3.svg',
-    'assets/graphics/Car4.svg',
-    'assets/graphics/Car2.svg',
-    'assets/graphics/Car3.svg',
-    'assets/graphics/Car4.svg',
-  ];
-
   @override
   Widget build(BuildContext context) {
+    double buttonSize = MediaQuery.of(context).size.width * 0.1;
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -118,92 +106,72 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: FractionalTranslation(
-                      translation: const Offset(0.0, 0.01),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text(
-                            'Here is your car!',
-                            style: TextStyle(
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          // Car svg
-                          SizedBox(
-                            width: screenWidth * 0.8,
-                            height: screenWidth * 0.8,
-                            child: Container(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.string(
-                                svgCode, // Use the loaded SVG string here
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 40,
-                          ),
-                          // Button
-                          SizedBox(
-                            width: screenWidth * 0.8,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                ourCar.name = carName;
-                                convertTextToImage(textPrompt, ourCar, context);
-                                isLoading = true;
-                                setState(() {});
-                                _progress = 0;
-                                _timer?.cancel();
-                                _timer = Timer.periodic(
-                                    const Duration(milliseconds: 100),
-                                    (Timer timer) {
-                                  EasyLoading.showProgress(_progress,
-                                      status:
-                                          '${(_progress * 100).toStringAsFixed(0)}%');
-                                  _progress += 0.003;
-                                  if (_progress >= 1) {
-                                    _timer?.cancel();
-                                  }
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.all(20.0),
-                                backgroundColor: Colors.red,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                              ),
-                              child: const Text(
-                                'Show concept',
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Here is your car!',
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  // Car svg
+                  SizedBox(
+                    width: screenWidth * 0.8,
+                    height: screenWidth * 0.8,
+                    child: Container(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SvgPicture.string(
+                        svgCode, // Use the loaded SVG string here
                       ),
                     ),
                   ),
+                  const SizedBox(height: 40),
+                  // Button
+                  SizedBox(
+                    width: screenWidth * 0.8,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        ourCar.name = carName;
+                        convertTextToImage(textPrompt, ourCar, context);
+                        isLoading = true;
+                        setState(() {});
+                        _progress = 0;
+                        _timer?.cancel();
+                        _timer = Timer.periodic(
+                            const Duration(milliseconds: 100), (Timer timer) {
+                          EasyLoading.showProgress(_progress,
+                              status:
+                              '${(_progress * 100).toStringAsFixed(0)}%');
+                          _progress += 0.003;
+                          if (_progress >= 1) {
+                            _timer?.cancel();
+                          }
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.all(20.0),
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                      ),
+                      child: const Text(
+                        'Show concept',
+                        style: TextStyle(
+                          fontSize: 30,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),
           ),
-          _buildArrowBackButton(context),
+          _buildArrowBackButton(context, buttonSize),
         ],
       ),
     );
@@ -221,21 +189,21 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
         child: Column(
           children: List.generate(
             4,
-            (i) => Row(
+                (i) => Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(
                 15,
-                (j) => Container(
+                    (j) => Container(
                   width: MediaQuery.of(context).size.width / 15,
                   height: 25,
                   decoration: BoxDecoration(
                     color: (i % 2 == 0)
                         ? (j % 2 == 0)
-                            ? Colors.black
-                            : Colors.white
+                        ? Colors.black
+                        : Colors.white
                         : (j % 2 == 0)
-                            ? Colors.white
-                            : Colors.black,
+                        ? Colors.white
+                        : Colors.black,
                   ),
                 ),
               ),
@@ -280,9 +248,7 @@ class FinalCarPreviewState extends State<FinalCarPreview> {
     );
   }
 
-  Widget _buildArrowBackButton(BuildContext context) {
-    double buttonSize = MediaQuery.of(context).size.width * 0.1;
-
+  Widget _buildArrowBackButton(BuildContext context, double buttonSize) {
     return Positioned(
       top: MediaQuery.of(context).size.height * 0.05,
       left: MediaQuery.of(context).size.width * 0.05,
